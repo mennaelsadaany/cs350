@@ -279,8 +279,10 @@ cmd_panic(int nargs, char **args)
  */
 static
 int
-cmd_dth()
+cmd_dth(int nargs, char **args)
 {
+	(void)nargs;
+	(void)args;
 	dbflags=0x0010; 
 	return 0;
 }
