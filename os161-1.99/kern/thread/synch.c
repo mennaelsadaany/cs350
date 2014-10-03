@@ -174,7 +174,7 @@ lock_create(const char *name)
 
         
         spinlock_init(&lock->lk_lock); 
-        lock-> lk->owner=NULL;
+        lock-> lk_owner=NULL;
         //////
         
         return lock;
