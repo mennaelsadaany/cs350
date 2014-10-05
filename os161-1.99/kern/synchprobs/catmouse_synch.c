@@ -16,7 +16,7 @@
  * declare other global variables if your solution requires them.
  */
 
-struct lock ** bowllock
+struct lock ** bowllock;
 int nummice;
 int numcats;
 struct cv* mice = cv_create("mice");
