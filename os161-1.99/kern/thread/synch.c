@@ -56,11 +56,11 @@ sem_create(const char *name, int initial_count)
                 return NULL;
         }
 
-        sem->sem_name = kstrdup(name);
-        if (sem->sem_name == NULL) {
-                kfree(sem);
-                return NULL;
-        }
+    sem->sem_name = kstrdup(name);
+    if (sem->sem_name == NULL) {
+            kfree(sem);
+            return NULL;
+    }
 
 	sem->sem_wchan = wchan_create(sem->sem_name);
 	if (sem->sem_wchan == NULL) {
@@ -70,21 +70,21 @@ sem_create(const char *name, int initial_count)
 	}
 
 	spinlock_init(&sem->sem_lock);
-        sem->sem_count = initial_count;
+    sem->sem_count = initial_count;
 
-        return sem;
+    return sem;
 }
 
 void
 sem_destroy(struct semaphore *sem)
 {
-        KASSERT(sem != NULL);
+    KASSERT(sem != NULL);
 
 	/* wchan_cleanup will assert if anyone's waiting on it */
 	spinlock_cleanup(&sem->sem_lock);
 	wchan_destroy(sem->sem_wchan);
-        kfree(sem->sem_name);
-        kfree(sem);
+    kfree(sem->sem_name);
+    kfree(sem);
 }
 
 void 
