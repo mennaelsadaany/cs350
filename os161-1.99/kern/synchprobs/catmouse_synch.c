@@ -19,8 +19,8 @@
 struct lock ** bowllock;
 int nummice;
 int numcats;
-struct cv* mice = cv_create("mice");
-struct cv* cats = cv_create("cats");
+struct cv *mice;
+struct cv *cats;  
 
 
 /* 
@@ -36,8 +36,12 @@ catmouse_sync_init(int bowls)
 {
   nummice=0;
   numcats=0;
+  mice = cv_create("mice");
+  cats  = cv_create("cats");
   for (int i=0; i<= bowls; i++){
-    bowllock[i]= lock_create(bowls);
+    struct lock *mutex; 
+    mutex= lock_create(bowls);
+    bowllock[i] = mutex; 
   }
   return;
 }
