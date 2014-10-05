@@ -16,9 +16,9 @@
  * declare other global variables if your solution requires them.
  */
 
-struct lock **bowllock;
-int nummice;
-int numcats;
+struct mylock **bowllock;
+unsigned int nummice;
+unsigned int numcats;
 struct cv *mice;
 struct cv *cats;  
 
@@ -36,7 +36,7 @@ catmouse_sync_init(int bowls)
 {
  nummice=0;
  numcats=0;
- bowllock = malloc ( bowls * (lock *));
+ bowllock = malloc ( bowls * (mylock *));
   mice = cv_create("mice");
   cats  = cv_create("cats");
   for (int i=0; i<= bowls; i++){
@@ -57,7 +57,7 @@ void
 catmouse_sync_cleanup(int bowls)
 {
   for (int i=0; i<= bowls; i++){
-    KASSERT(mybowl != NULL);
+    KASSERT(bowllock[i] != NULL);
     lock_destroy(bowllock[i]);
   }
   KASSERT(mice != NULL);
@@ -82,8 +82,7 @@ catmouse_sync_cleanup(int bowls)
 void
 cat_before_eating(unsigned int bowl) 
 {
-  mybowl= bowllock[bowl]; 
-  lock_acquire(mybowl); //get lock for specific bowl 
+  lock_acquire(bowllock[bowl]); //get lock for specific bowl 
 
   while(nummice > 0){ //if there are mice eating 
     cv_wait(cats,mybowl); //wait until cats are allowed to eat, then get the lock 
@@ -133,8 +132,7 @@ cat_after_eating(unsigned int bowl)
 void
 mouse_before_eating(unsigned int bowl) 
 {
-  mybowl= bowllock[bowl]; 
-  lock_acquire(mybowl); //get lock for specific bowl 
+  lock_acquire(bowllock[bowl]); //get lock for specific bowl 
 
   while(numcats > 0){ //if there are cats eating 
     cv_wait(mice,mybowl); //wait until mice are allowed to eat, then get the lock 
