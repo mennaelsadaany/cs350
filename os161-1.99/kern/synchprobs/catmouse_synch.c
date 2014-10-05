@@ -34,8 +34,8 @@ struct cv *cats;
 void
 catmouse_sync_init(int bowls)
 {
- int nummice=0;
- int numcats=0;
+ nummice=0;
+ numcats=0;
  bowllock = malloc ( bowls * (lock *));
   mice = cv_create("mice");
   cats  = cv_create("cats");
