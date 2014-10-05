@@ -35,13 +35,12 @@ void
 catmouse_sync_init(int bowls)
 {
  int nummice=0;
-  int numcats=0;
+ int numcats=0;
+ bowllock = malloc ( bowls * (lock *));
   mice = cv_create("mice");
   cats  = cv_create("cats");
   for (int i=0; i<= bowls; i++){
-    struct lock *mutex; 
-    mutex= lock_create(bowls);
-    bowllock[i] = mutex; 
+    bowllock[i] = lock_create("bowl");
   }
   return;
 }
