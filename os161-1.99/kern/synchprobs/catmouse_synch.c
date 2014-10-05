@@ -16,7 +16,7 @@
  * declare other global variables if your solution requires them.
  */
 
-struct lock ** bowllock;
+struct lock **bowllock;
 int nummice;
 int numcats;
 struct cv *mice;
@@ -34,8 +34,8 @@ struct cv *cats;
 void
 catmouse_sync_init(int bowls)
 {
-  nummice=0;
-  numcats=0;
+ int nummice=0;
+  int numcats=0;
   mice = cv_create("mice");
   cats  = cv_create("cats");
   for (int i=0; i<= bowls; i++){
