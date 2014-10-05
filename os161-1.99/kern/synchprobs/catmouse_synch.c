@@ -19,9 +19,9 @@
 struct lock ** bowllock
 int nummice;
 int numcats;
+struct cv* mice = cv_create("mice");
+struct cv* cats = cv_create("cats");
 
-cv_create("mice");
-cv_create("cats");
 
 /* 
  * The CatMouse simulation will call this function once before any cat or
