@@ -17,7 +17,7 @@
  */
 
 struct lock **bowllock;
-struct lock countlock; 
+struct lock *countlock; 
 unsigned int nummice;
 unsigned int numcats;
 unsigned int numbowls; 
