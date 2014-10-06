@@ -16,7 +16,7 @@
  * declare other global variables if your solution requires them.
  */
 
-struct mylock **bowllock;
+//struct mylock **bowllock;
 unsigned int nummice;
 unsigned int numcats;
 unsigned int numbowls; 
