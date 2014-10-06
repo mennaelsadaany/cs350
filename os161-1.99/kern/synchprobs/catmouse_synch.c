@@ -125,7 +125,7 @@ cat_after_eating(unsigned int bowl)
   }
   lock_do_i_hold(bowllock[bowl]);
   lock_release(bowllock[bowl]); 
-  lock_do_i_hold(countlock]);
+  lock_do_i_hold(countlock);
   lock_release(countlock); 
 
 }
@@ -181,6 +181,6 @@ mouse_after_eating(unsigned int bowl)
   }
   lock_do_i_hold(bowllock[bowl]);
   lock_release(bowllock[bowl]); 
-  lock_do_i_hold(countlock]);
+  lock_do_i_hold(countlock);
   lock_release(countlock); 
 }
