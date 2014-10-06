@@ -66,6 +66,7 @@ catmouse_sync_cleanup(int bowls)
   }
   KASSERT(mice != NULL);
   KASSERT(cats != NULL);
+  KASSERT(countlock != NULL);
   lock_destroy(countlock);
   cv_destroy(mice);
   cv_destroy(cats);
@@ -116,15 +117,16 @@ cat_before_eating(unsigned int bowl)
 void
 cat_after_eating(unsigned int bowl) 
 {
+  lock_acquire(countlock); 
   numcats--; //a cat finished eating
 
   if (numcats == 0){ //no more cats are eating 
- //   for (unsigned int i=0; i< numbowls; i++){ //go through all bowls and signal that a mouse can eat
       cv_broadcast(mice, bowllock[bowl]);
-  //  }
   }
   lock_do_i_hold(bowllock[bowl]);
   lock_release(bowllock[bowl]); 
+  lock_do_i_hold(countlock]);
+  lock_release(countlock); 
 
 }
 
@@ -171,14 +173,14 @@ mouse_before_eating(unsigned int bowl)
 void
 mouse_after_eating(unsigned int bowl) 
 {
+  lock_acquire(countlock); 
   nummice--; //a cat finished eating
 
-
   if (nummice == 0){ //no more cats are eating 
-  //  for (unsigned int i=0; i< numbowls; i++){ //go through all bowls and signal that a cat can eat
       cv_broadcast(cats, bowllock[bowl]); 
-    //}
   }
   lock_do_i_hold(bowllock[bowl]);
   lock_release(bowllock[bowl]); 
+  lock_do_i_hold(countlock]);
+  lock_release(countlock); 
 }
