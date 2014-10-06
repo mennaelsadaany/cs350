@@ -109,14 +109,15 @@ void
 cat_after_eating(unsigned int bowl) 
 {
   numcats--; //a cat finished eating
-  lock_do_i_hold(bowllock[bowl]);
-  lock_release(bowllock[bowl]); 
+
 
   if (numcats == 0){ //no more cats are eating 
-    for (unsigned int i=0; i< numbowls; i++){ //go through all bowls and signal that a mouse can eat
-      cv_broadcast(mice, bowllock[i]);
-    }
+ //   for (unsigned int i=0; i< numbowls; i++){ //go through all bowls and signal that a mouse can eat
+      cv_broadcast(mice, bowllock[bowl]);
+  //  }
   }
+  lock_do_i_hold(bowllock[bowl]);
+  lock_release(bowllock[bowl]); 
 
 }
 
@@ -160,13 +161,13 @@ void
 mouse_after_eating(unsigned int bowl) 
 {
   nummice--; //a cat finished eating
-  lock_do_i_hold(bowllock[bowl]);
-  lock_release(bowllock[bowl]); 
+
 
   if (nummice == 0){ //no more cats are eating 
-    for (unsigned int i=0; i< numbowls; i++){ //go through all bowls and signal that a cat can eat
-      cv_broadcast(cats, bowllock[i]); 
-    }
+  //  for (unsigned int i=0; i< numbowls; i++){ //go through all bowls and signal that a cat can eat
+      cv_broadcast(cats, bowllock[bowl]); 
+    //}
   }
-
+  lock_do_i_hold(bowllock[bowl]);
+  lock_release(bowllock[bowl]); 
 }
