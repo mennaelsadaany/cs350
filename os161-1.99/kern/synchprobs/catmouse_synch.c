@@ -111,7 +111,7 @@ cat_after_eating(unsigned int bowl)
   numcats--; //a cat finished eating
 
   if (numcats == 0){ //no more cats are eating 
-    for (int i=0; i< numbowls; i++){ //go through all bowls and signal that a mouse can eat
+    for (unsigned int i=0; i< numbowls; i++){ //go through all bowls and signal that a mouse can eat
       cv_signal(mice, bowllock[i]);
     }
   }
@@ -161,7 +161,7 @@ mouse_after_eating(unsigned int bowl)
   nummice--; //a cat finished eating
 
   if (nummice == 0){ //no more cats are eating 
-    for (int i=0; i< numbowls; i++){ //go through all bowls and signal that a cat can eat
+    for (unsigned int i=0; i< numbowls; i++){ //go through all bowls and signal that a cat can eat
       cv_signal(cats, bowllock[i]); 
     }
   }
