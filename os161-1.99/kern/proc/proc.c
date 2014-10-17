@@ -80,7 +80,6 @@ struct proc *
 proc_create(const char *name)
 {
 	struct proc *proc;
-	proc->pid= pidcounter++; 
 	proc = kmalloc(sizeof(*proc));
 	if (proc == NULL) {
 		return NULL;
@@ -222,7 +221,7 @@ proc_create_runprogram(const char *name)
 {
 	struct proc *proc;
 	char *console_path;
-
+	proc->pid= pidcounter++; 
 	proc = proc_create(name);
 	if (proc == NULL) {
 		return NULL;
