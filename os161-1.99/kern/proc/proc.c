@@ -55,6 +55,7 @@
  * The process for the kernel; this holds all the kernel-only threads.
  */
 struct proc *kproc;
+int pidcounter=0; 
 
 /*
  * Mechanism for making the kernel menu thread sleep while processes are running
@@ -79,7 +80,7 @@ struct proc *
 proc_create(const char *name)
 {
 	struct proc *proc;
-
+	pid= pidcounter++; 
 	proc = kmalloc(sizeof(*proc));
 	if (proc == NULL) {
 		return NULL;
