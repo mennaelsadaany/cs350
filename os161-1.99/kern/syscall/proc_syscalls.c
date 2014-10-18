@@ -115,7 +115,7 @@ sys_fork(struct trapframe *tf, pid_t *retval) {
 
     //threadfork yolo how
 
-    err = thread_fork(curthread->t_name, newproc, enter_forked_process, newtrapframe, 0);
+    err = thread_fork(curthread->t_name, newproc, &enter_forked_process, newtrapframe, 0);
 return(0); 
 
 }
