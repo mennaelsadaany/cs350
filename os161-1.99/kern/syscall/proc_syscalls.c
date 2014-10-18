@@ -98,17 +98,17 @@ sys_fork(struct trapframe *tf, pid_t *retval) {
     int err = 0;
     struct proc *newproc = proc_create_runprogram(curproc->p_name);
     
-    err= as_copy(curproc->p_addrspace, newproc->p_addrspace);
+    err= as_copy(curproc->p_addrspace, &newproc->p_addrspace);
       if (err){
         proc_destroy(newproc);
-        kfree(newproc->addrspace);
+        kfree(newproc->p_addrspace);
         return ENOMEM; 
       }
 
-    struct trapframe newtrapframe = (struct trapframe *)kmalloc(sizeof(struct trapframe*));
-    if(nnewtrapframe == NULL) {
+    struct trapframe *newtrapframe = (struct trapframe *)kmalloc(sizeof(struct trapframe*));
+    if(newtrapframe == NULL) {
         proc_destroy(newproc);
-        kfree(nnewproc->p_addrspace);
+        kfree(newproc->p_addrspace);
         return ENOMEM;
     }
     memcpy(newtrapframe, tf, sizeof(struct trapframe *));
