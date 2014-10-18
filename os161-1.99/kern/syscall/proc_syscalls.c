@@ -93,3 +93,24 @@ sys_waitpid(pid_t pid,
   return(0);
 }
 
+int
+sys_fork(struct trapframe *tf, pid_t *retval) {
+    int err = 0;
+    struct proc *newproc = proc_create_runprogram(curproc->p_name);
+    
+    err= as_copy(curproc->addrspace, newproc->addrspace);
+      if (err){
+        proc_destroy(newproc);
+        kfree(newproc->addrspace);
+        return ENOMEM; 
+      }
+
+    newproc->tf = (struct trapframe *)kmalloc(sizeof(struct trapframe*));
+    if(newproc->tf == NULL) {
+        proc_destroy(newproc);
+        kfree(newproc->addrspace);
+        return ENOMEM;
+    }
+    memcpy(newproc->tf, tf, sizeof(struct trapframe *));
+}
+

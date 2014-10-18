@@ -55,7 +55,7 @@
  * The process for the kernel; this holds all the kernel-only threads.
  */
 struct proc *kproc;
-int pidcounter=0; 
+int pidcounter=2; 
 
 /*
  * Mechanism for making the kernel menu thread sleep while processes are running
