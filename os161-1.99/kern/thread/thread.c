@@ -480,7 +480,7 @@ thread_fork(const char *name,
 	    void (*entrypoint)(void *data1, unsigned long data2),
 	    void *data1, unsigned long data2)
 {
-	kprintf("in threadfork"); 
+	//kprintf("in threadfork"); 
 	struct thread *newthread;
 	int result;
 
@@ -492,7 +492,7 @@ thread_fork(const char *name,
 	if (newthread == NULL) {
 		return ENOMEM;
 	}
-	kprintf("created thread"); 
+	//kprintf("created thread"); 
 
 	/* Allocate a stack */
 	newthread->t_stack = kmalloc(STACK_SIZE);
@@ -500,7 +500,7 @@ thread_fork(const char *name,
 		thread_destroy(newthread);
 		return ENOMEM;
 	}
-	kprintf("allocated stack"); 
+	//kprintf("allocated stack"); 
 	thread_checkstack_init(newthread);
 
 	/*
@@ -511,11 +511,11 @@ thread_fork(const char *name,
 	newthread->t_cpu = curthread->t_cpu;
 
 	/* Attach the new thread to its process */
-	kprintf("attatch thread"); 
+	//kprintf("attatch thread"); 
 	if (proc == NULL) {
 		proc = curthread->t_proc;
 	}
-	kprintf("procadd thread"); 
+	//kprintf("procadd thread"); 
 	result = proc_addthread(proc, newthread);
 	if (result) {
 		/* thread_destroy will clean up the stack */
