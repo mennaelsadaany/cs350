@@ -181,8 +181,9 @@ syscall(struct trapframe *tf)
  * Thus, you can trash it and do things another way if you prefer.
  */
 void
-enter_forked_process(void *data1, unsigned long data2){
-  struct *tf = data1;
+enter_forked_process(void *data1, unsigned long data2)
+{
+  struct trapframe *tf = data1;
   (void)data2; 
   tf->tf_v0 = 0;
   tf->tf_a3 = 0;
