@@ -96,21 +96,21 @@ sys_waitpid(pid_t pid,
 int
 sys_fork(struct trapframe *tf, pid_t *retval) {
     int err = 0;
-kprintf("making proc"); 
+//kprintf("making proc"); 
     struct proc *newproc = proc_create_runprogram(curproc->p_name);
     if(newproc == NULL){
       //error
     }
-    kprintf("made proc"); 
-    kprintf("copying address space"); 
+  //  kprintf("made proc"); 
+    //kprintf("copying address space"); 
     err= as_copy(curproc->p_addrspace, &newproc->p_addrspace);
       if (err){
         proc_destroy(newproc);
         kfree(newproc->p_addrspace);
         return ENOMEM; 
       }
-kprintf("copied address space"); 
-kprintf("making trapframe"); 
+//kprintf("copied address space"); 
+//kprintf("making trapframe"); 
     struct trapframe *newtrapframe = (struct trapframe *)kmalloc(sizeof(struct trapframe*));
 
     if(newtrapframe == NULL) {
@@ -118,14 +118,14 @@ kprintf("making trapframe");
         kfree(newproc->p_addrspace);
         return ENOMEM;
     }
-    kprintf("made trapframe"); 
-    kprintf("copyingtrapframe"); 
+  //  kprintf("made trapframe"); 
+    //kprintf("copyingtrapframe"); 
     memcpy(newtrapframe, tf, sizeof(struct trapframe *));
-kprintf("copyied trapframe"); 
+//kprintf("copyied trapframe"); 
     //threadfork yolo how
-kprintf("going to threadfork"); 
+//kprintf("going to threadfork"); 
     err = thread_fork(curthread->t_name, newproc, enter_forked_process, newtrapframe, 0);
-    kprintf("done threadfork"); 
+  //  kprintf("done threadfork"); 
     *retval = newproc->pid; 
     
 return(0); 
