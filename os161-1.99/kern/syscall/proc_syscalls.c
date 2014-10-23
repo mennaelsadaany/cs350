@@ -118,8 +118,6 @@ sys_fork(struct trapframe *tf, pid_t *retval) {
         kfree(newproc->p_addrspace);
         return ENOMEM;
     }
-  //  kprintf("made trapframe"); 
-    //kprintf("copyingtrapframe"); 
     memcpy(newtrapframe, tf, sizeof(struct trapframe *));
 //kprintf("copyied trapframe"); 
     //threadfork yolo how
