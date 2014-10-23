@@ -183,8 +183,7 @@ syscall(struct trapframe *tf)
 void
 enter_forked_process(void *data1, unsigned long data2)
 {
-  struct trapframe tf;
-  tf = &data1;
+  struct trapframe *tf = data1;
   (void)data2; 
   tf.tf_v0 = 0;
   tf.tf_a3 = 0;
