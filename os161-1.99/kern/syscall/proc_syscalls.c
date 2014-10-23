@@ -96,26 +96,36 @@ sys_waitpid(pid_t pid,
 int
 sys_fork(struct trapframe *tf, pid_t *retval) {
     int err = 0;
+kprint("making proc"); 
     struct proc *newproc = proc_create_runprogram(curproc->p_name);
-    
+    if(newproc == NULL){
+      //error
+    }
+    kprint("made proc"); 
+    kprint("copying address space"); 
     err= as_copy(curproc->p_addrspace, &newproc->p_addrspace);
       if (err){
         proc_destroy(newproc);
         kfree(newproc->p_addrspace);
         return ENOMEM; 
       }
-
+kprint("copied address space"); 
+kprint("making trapframe"); 
     struct trapframe *newtrapframe = (struct trapframe *)kmalloc(sizeof(struct trapframe*));
+
     if(newtrapframe == NULL) {
         proc_destroy(newproc);
         kfree(newproc->p_addrspace);
         return ENOMEM;
     }
+    kprint("made trapframe"); 
+    kprint("copyingtrapframe"); 
     memcpy(newtrapframe, tf, sizeof(struct trapframe *));
-
+kprint("copyied trapframe"); 
     //threadfork yolo how
-
+kprint("going to threadfork"); 
     err = thread_fork(curthread->t_name, newproc, enter_forked_process, newtrapframe, 0);
+    kprint("done threadfork"); 
     *retval = newproc->pid; 
     
 return(0); 
