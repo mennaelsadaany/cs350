@@ -366,7 +366,7 @@ mips_trap(struct trapframe *tf)
 void
 mips_usermode(struct trapframe *tf)
 {
-kprintf("in usermode"); 
+//kprintf("in usermode"); 
 	/*
 	 * Interrupts should be off within the kernel while entering
 	 * user mode. However, while in user mode, interrupts should

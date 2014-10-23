@@ -124,6 +124,7 @@ sys_fork(struct trapframe *tf, pid_t *retval) {
 //kprintf("going to threadfork"); 
     err = thread_fork(curthread->t_name, newproc, enter_forked_process, newtrapframe, 0);
   //  kprintf("done threadfork"); 
+     curproc_setas(&newproc->p_addrspace); 
      as_activate();
     *retval = newproc->pid; 
     
