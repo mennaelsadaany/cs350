@@ -110,7 +110,7 @@ sys_fork(struct trapframe *tf, pid_t *retval) {
           return ENOMEM; 
         } 
 
-        struct addrspace temp = kmalloc(sizeof(addrspace));
+        struct addrspace *temp = kmalloc(sizeof(addrspace));
          err= as_copy(curproc->p_addrspace, &temp);
          
     as_activate();
