@@ -21,8 +21,8 @@ void sys__exit(int exitcode) {
      an unused variable */
   
   //tings for exit duno yolo
-  //p->exitcode = exitcode;
-  //p->exited = true;
+  p->exitcode = exitcode;
+  p->exited = true;
 //end of my tings duno more yolo
 
   DEBUG(DB_SYSCALL,"Syscall: _exit(%d)\n",exitcode);

@@ -229,8 +229,8 @@ proc_create_runprogram(const char *name)
 	}
 
 	//proc->parentpid = 1;   
-    //proc->exitcode = -1;
-    //proc->exited = false;
+    proc->exitcode = -1;
+    proc->exited = false;
 
 #ifdef UW
 	/* open the console - this should always succeed */
