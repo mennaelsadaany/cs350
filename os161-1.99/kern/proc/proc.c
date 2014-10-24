@@ -51,6 +51,7 @@
 #include <synch.h>
 #include <spinlock.h>
 #include <kern/fcntl.h> 
+ #include <limits.h>
 #include <thread.h>
 #include <wchan.h>
 
