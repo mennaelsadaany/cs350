@@ -294,9 +294,20 @@ proc_create_runprogram(const char *name)
 	
 	proc_count++;
 	int i=2; 
-	while(i<32765){
+
+	while(i<32767){
 		if (pidarray[i].pid == 0){
-			proc->pid = i;   
+			proc->pid = i;  
+			//set up proc table
+
+			pidarray[i]=mypid process;
+		    process.pid= i; 
+		    process.parentpid=proc->parentpid; 
+		    process.exited=false; 
+		    process.exitcode= -1; 
+		    process.lock = lock_create("test"); 
+		    lock_acquire(process.lock);
+    //  
 			break; 
 		}
 		else
@@ -306,13 +317,7 @@ proc_create_runprogram(const char *name)
     proc->exitcode = -1;
     proc->exited = false;
 
-    mypid process;
-    process.pid= proc->pid;
-    process.parentpid=proc->parentpid; 
-    process.exited=proc->exited; 
-    process.exitcode= proc->exitcode; 
-    process.lock = lock_create("test"); 
-    lock_acquire(process.lock);
+
 
 	V(proc_count_mutex);
 #endif // UW
