@@ -71,13 +71,6 @@ typedef struct mypid
 
 mypid pidarray[32765];
 
-int counter=0;
-while (counter <=32765 ) {
-	pidarray[counter]=0; 
-	counter++; 
-}
-
-
 /*
  * Mechanism for making the kernel menu thread sleep while processes are running
  */
