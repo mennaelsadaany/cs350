@@ -293,6 +293,7 @@ proc_create_runprogram(const char *name)
 	P(proc_count_mutex); 
 	
 	proc_count++;
+	mypid process; 
 	int i=2; 
 
 	while(i<32767){
@@ -300,7 +301,7 @@ proc_create_runprogram(const char *name)
 			proc->pid = i;  
 			//set up proc table
 
-			pidarray[i]=mypid process;
+			pidarray[i]= process;
 		    process.pid= i; 
 		    process.parentpid=proc->parentpid; 
 		    process.exited=false; 
