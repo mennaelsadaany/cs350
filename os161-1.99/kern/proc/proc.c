@@ -56,7 +56,16 @@
  */
 struct proc *kproc;
 int pidcounter=2; 
-int pidarray[32765]; 
+
+typedef struct mypid
+{
+	int pid; 
+	int exitcode;
+	bool exited; 
+	int parentpid; 
+} mypid;
+
+mypid pidarray[32765]; 
 /*
  * Mechanism for making the kernel menu thread sleep while processes are running
  */
@@ -275,6 +284,13 @@ proc_create_runprogram(const char *name)
 	proc->parentpid = 1;   
     proc->exitcode = -1;
     proc->exited = false;
+
+    mypid process;
+    process.pid= proc->pid;
+    process.parentpid=proc->parentpid; 
+    process.exited=proc->exited; 
+    process.exitcode= proc->exitcode; 
+    
 	V(proc_count_mutex);
 #endif // UW
 
