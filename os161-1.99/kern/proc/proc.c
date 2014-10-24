@@ -60,14 +60,15 @@ int pidcounter=2;
 
 typedef struct mypid
 {
-	int pid; 
-	int exitcode;
-	bool exited; 
-	int parentpid; 
-	struct lock *lock; 
+	int pid=NULL; 
+	int exitcode=NULL;
+	bool exited=NULL; 
+	int parentpid=NULL; 
+	struct lock *lock=NULL; 
 } mypid;
 
 mypid pidarray[32765]; 
+
 /*
  * Mechanism for making the kernel menu thread sleep while processes are running
  */
@@ -281,9 +282,17 @@ proc_create_runprogram(const char *name)
         /* we are assuming that all procs, including those created by fork(),
            are created using a call to proc_create_runprogram  */
 	P(proc_count_mutex); 
+	
 	proc_count++;
-	proc->pid= pidcounter++; 
-	proc->parentpid = 1;   
+	int i=2; 
+	while(i<32765){
+		if pidarray[i].pid == NULL; 
+			proc->pid = i;   
+			break; 
+		else
+			i++; 
+	} 
+	proc->parentpid = curproc->pid;   
     proc->exitcode = -1;
     proc->exited = false;
 
@@ -293,6 +302,7 @@ proc_create_runprogram(const char *name)
     process.exited=proc->exited; 
     process.exitcode= proc->exitcode; 
     process.lock = lock_create("test"); 
+    lock_aquire(process.lock);
 
 	V(proc_count_mutex);
 #endif // UW

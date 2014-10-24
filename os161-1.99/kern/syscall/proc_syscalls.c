@@ -25,6 +25,7 @@ void sys__exit(int exitcode) {
   //tings for exit duno yolo
   p->exitcode = exitcode;
   p->exited = true;
+   
   //(void)exitcode; 
 //end of my tings duno more yolo
 
