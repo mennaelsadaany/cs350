@@ -103,6 +103,9 @@ int
 sys_fork(struct trapframe *tf, pid_t *retval) {
     int err = 0;
     struct proc *newproc = proc_create_runprogram(curproc->p_name);
+
+    struct addrspace *temp;// = (struct addrspace *)kmalloc(sizeof(addrspace));
+    err= as_copy(curproc->p_addrspace, &temp);
      
         if (err){
           proc_destroy(newproc);
@@ -110,9 +113,7 @@ sys_fork(struct trapframe *tf, pid_t *retval) {
           return ENOMEM; 
         } 
 
-        struct addrspace *temp;// = (struct addrspace *)kmalloc(sizeof(addrspace));
-        err= as_copy(curproc->p_addrspace, &temp);
-         
+        
     as_activate();
 
     newproc->p_addrspace=temp;
