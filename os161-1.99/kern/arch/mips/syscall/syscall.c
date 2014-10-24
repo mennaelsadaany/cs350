@@ -191,5 +191,5 @@ enter_forked_process(void *data1, unsigned long data2)
   mytrapframe->tf_v0 = 0;
   mytrapframe->tf_a3 = 0;
   mytrapframe->tf_epc += 4;
-  mips_usermode(&newtf);
+  mips_usermode(&mytrapframe-);
 }
