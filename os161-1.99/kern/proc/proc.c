@@ -233,6 +233,13 @@ proc_create_runprogram(const char *name)
 		return NULL;
 	}
 
+<<<<<<< HEAD
+=======
+	proc->parentpid = 1;   
+    proc->exitcode = -1;
+    proc->exited = false;
+
+>>>>>>> fbbe610c5826158eeffd72f401258ae80bfed9a2
 #ifdef UW
 	/* open the console - this should always succeed */
 	console_path = kstrdup("con:");
