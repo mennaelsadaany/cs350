@@ -70,11 +70,11 @@ typedef struct mypid
 } mypid;
 
 mypid pidarray[32765]; 
-/*
+
 for (int x=0; x< 32765; x++){
 	pidarray[x].pid=0; 
 }
-*/
+
 /*
  * Mechanism for making the kernel menu thread sleep while processes are running
  */
