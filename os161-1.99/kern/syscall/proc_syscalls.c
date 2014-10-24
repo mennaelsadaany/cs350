@@ -97,7 +97,7 @@ sys_waitpid(pid_t pid,
   *retval = pid;
   return(0);
 }
-
+/*
 int
 sys_fork(struct trapframe *tf, pid_t *retval) {
     int err = 0;
@@ -124,5 +124,5 @@ sys_fork(struct trapframe *tf, pid_t *retval) {
 return(0); 
 
 }
-}
+}*/
 
