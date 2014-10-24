@@ -38,6 +38,7 @@
 
 #include <spinlock.h>
 #include <thread.h> /* required for struct threadarray */
+ #include <synch.h>
 
 struct addrspace;
 struct vnode;
