@@ -43,6 +43,7 @@
  */
 
 #include <types.h>
+ #include <copyinout.h>
 #include <proc.h>
 #include <current.h>
 #include <addrspace.h>
