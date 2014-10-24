@@ -51,8 +51,8 @@ struct semaphore;
 struct proc {
 	char *p_name;			/* Name of this process */
 	int pid; //process id
-	int exitcode;
-	bool exited; 
+	//int exitcode;
+	//bool exited; 
 	struct spinlock p_lock;		/* Lock for this structure */
 	struct threadarray p_threads;	/* Threads in this process */
 
