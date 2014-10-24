@@ -60,14 +60,17 @@ int pidcounter=2;
 
 typedef struct mypid
 {
-	int pid=0; 
-	int exitcode=-1;
-	bool exited=false; 
-	int parentpid=1; 
-	struct lock *lock=NULL; 
+	int pid; 
+	int exitcode;
+	bool exited; 
+	int parentpid; 
+	struct lock *lock; 
 } mypid;
 
 mypid pidarray[32765]; 
+for (int x=0; x< 32765; x++){
+	pidarray[x].pid=0; 
+}
 
 /*
  * Mechanism for making the kernel menu thread sleep while processes are running
@@ -286,9 +289,10 @@ proc_create_runprogram(const char *name)
 	proc_count++;
 	int i=2; 
 	while(i<32765){
-		if pidarray[i].pid == NULL; 
+		if (pidarray[i].pid == NULL){
 			proc->pid = i;   
 			break; 
+		}
 		else
 			i++; 
 	} 
