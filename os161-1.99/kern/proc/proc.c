@@ -64,7 +64,7 @@ typedef struct mypid
 	int exitcode;
 	bool exited; 
 	int parentpid; 
-	struct lock *lock; 
+	struct lock; 
 } mypid;
 
 mypid pidarray[32765]; 
