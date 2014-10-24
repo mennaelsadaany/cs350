@@ -46,6 +46,15 @@ struct vnode;
 struct semaphore;
 #endif // UW
 
+typedef struct mypid
+{
+	int pid; 
+	int exitcode;
+	bool exited; 
+	int parentpid; 
+	struct lock *lock; 
+} mypid;
+
 extern process pidarray; 
 /*
  * Process structure.
