@@ -117,7 +117,7 @@ sys_fork(struct trapframe *tf, pid_t *retval) {
 
     newproc->p_addrspace=temp;
 
-    struct trapframe *newtrapframe = kmalloc(sizeof(struct trapframe));
+    struct trapframe *newtrapframe = kmalloc(sizeof(struct trapframe*));
 
       if(newtrapframe == NULL) {
           proc_destroy(newproc);
