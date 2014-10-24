@@ -292,6 +292,10 @@ proc_create_runprogram(const char *name)
            are created using a call to proc_create_runprogram  */
 	P(proc_count_mutex); 
 	
+	proc->parentpid = curproc->pid;   
+    proc->exitcode = -1;
+    proc->exited = false;
+
 	proc_count++;
 	mypid process; 
 	int i=2; 
@@ -306,7 +310,7 @@ proc_create_runprogram(const char *name)
 		    process.parentpid=proc->parentpid; 
 		    process.exited=false; 
 		    process.exitcode= -1; 
-		    process.lock = lock_create("test"); 
+		    process.lock = lock_create("pid: "+process.pid); 
 		    lock_acquire(process.lock);
     //  
 			break; 
@@ -314,11 +318,6 @@ proc_create_runprogram(const char *name)
 		else
 			i++; 
 	} 
-	proc->parentpid = curproc->pid;   
-    proc->exitcode = -1;
-    proc->exited = false;
-
-
 
 	V(proc_count_mutex);
 #endif // UW
