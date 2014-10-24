@@ -10,6 +10,7 @@
 #include <addrspace.h>
 #include <copyinout.h>
 #include <addrspace.h>
+#include <mips/trapframe.h>
 
   /* this implementation of sys__exit does not do anything with the exit code */
   /* this needs to be fixed to get exit() and waitpid() working properly */
@@ -118,7 +119,7 @@ sys_fork(struct trapframe *tf, pid_t *retval) {
 
     newproc->p_addrspace=temp;
 
-    struct trapframe newtrapframe = kmalloc(sizeof(struct trapframe));
+    struct trapframe *newtrapframe = kmalloc(sizeof(struct trapframe));
 
       if(newtrapframe == NULL) {
           proc_destroy(newproc);
