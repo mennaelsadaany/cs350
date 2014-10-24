@@ -311,6 +311,7 @@ proc_create_runprogram(const char *name)
 		    process.exited=false; 
 		    process.exitcode= -1; 
 		    process.lock = lock_create("pid: "+process.pid); 
+		    kprint(process.lock->lk_name); 
 		    lock_acquire(process.lock);
     //  
 			break; 
