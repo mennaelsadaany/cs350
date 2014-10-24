@@ -291,7 +291,7 @@ proc_create_runprogram(const char *name)
     process.parentpid=proc->parentpid; 
     process.exited=proc->exited; 
     process.exitcode= proc->exitcode; 
-    string mypid = "pid: "+pid;
+    char mypid[] = "pid: "+pid;
     struct lock *mylock = lock_create(mypid); 
 
 	V(proc_count_mutex);
