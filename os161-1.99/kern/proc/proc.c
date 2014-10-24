@@ -56,7 +56,7 @@
  */
 struct proc *kproc;
 int pidcounter=2; 
-//int pidarray [10]; 
+int pidarray[32765]; 
 /*
  * Mechanism for making the kernel menu thread sleep while processes are running
  */

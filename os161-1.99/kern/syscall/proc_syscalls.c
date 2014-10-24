@@ -103,7 +103,11 @@ sys_waitpid(pid_t pid,
 int
 sys_fork(struct trapframe *tf, pid_t *retval) {
     int err = 0;
+
     struct proc *newproc = proc_create_runprogram(curproc->p_name);
+        if (newproc == NULL){
+          return ENOMEM; 
+        } 
 
     struct addrspace *temp;// = (struct addrspace *)kmalloc(sizeof(addrspace));
     err= as_copy(curproc->p_addrspace, &temp);
