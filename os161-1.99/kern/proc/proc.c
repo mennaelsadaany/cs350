@@ -81,11 +81,6 @@ proc_create(const char *name)
 {
 	struct proc *proc;
 
-
-=======
-	int exitcode; 
-	bool exited; 
-
 	proc = kmalloc(sizeof(*proc));
 	if (proc == NULL) {
 		return NULL;
@@ -233,7 +228,6 @@ proc_create_runprogram(const char *name)
 		return NULL;
 	}
 
-=======
 	proc->parentpid = 1;   
     proc->exitcode = -1;
     proc->exited = false;
