@@ -183,11 +183,13 @@ syscall(struct trapframe *tf)
 void
 enter_forked_process(void *data1, unsigned long data2)
 {
-  struct trapframe *tf = data1;
-  struct trapframe newtf= *tf; 
+  struct trapframe *temptf =  (struct trapframe *) data1;
+  struct trapframe *mytrapframe = temptf; 
+
+
   (void)data2; 
-  newtf.tf_v0 = 0;
-  newtf.tf_a3 = 0;
-  newtf.tf_epc += 4;
+  mytrapframe->tf_v0 = 0;
+  mytrapframe->tf_a3 = 0;
+  mytrapframe->tf_epc += 4;
   mips_usermode(&newtf);
 }
