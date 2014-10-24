@@ -46,7 +46,7 @@ struct vnode;
 struct semaphore;
 #endif // UW
 
-mypid pidarray[PID_MAX];
+extern mypid pidarray[PID_MAX];
 /*
  * Process structure.
  */
