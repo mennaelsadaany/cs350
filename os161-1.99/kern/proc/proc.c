@@ -43,7 +43,6 @@
  */
 
 #include <types.h>
- #include <copyinout.h>
 #include <proc.h>
 #include <current.h>
 #include <addrspace.h>
@@ -70,7 +69,7 @@ typedef struct mypid
 	struct lock *lock; 
 } mypid;
 
-mypid pidarray[32765];
+mypid pidarray[MAX_PID];
 
 
 
@@ -299,9 +298,9 @@ proc_create_runprogram(const char *name)
 
 	proc_count++;
 	mypid process; 
-	int i=2; 
+	int i=MIN_PID; 
 
-	while(i<32767){
+	while(i<MAX_PID){
 		if (pidarray[i].pid == 0){
 			proc->pid = i;  
 			//set up proc table
@@ -312,7 +311,6 @@ proc_create_runprogram(const char *name)
 		    process.exited=false; 
 		    process.exitcode= -1; 
 		    process.lock = lock_create("pid: "+process.pid); 
-		    kprint(process.lock->lk_name); 
 		    lock_acquire(process.lock);
     //  
 			break; 

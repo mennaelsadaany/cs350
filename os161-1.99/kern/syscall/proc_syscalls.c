@@ -25,14 +25,14 @@ void sys__exit(int exitcode) {
   //tings for exit duno yolo
   p->exitcode = exitcode;
   p->exited = true;
-/*
+
   for (i=0; i < PID_MAX; i++;){
     if (curproc->pid == pidarray[i].pid){
         p->exitcode = exitcode;
         p->exited = true;
-        lock_release(); 
+        lock_release(pidarray[i].lock); 
     }
-  }*/
+  }
 
   //(void)exitcode; 
 //end of my tings duno more yolo
