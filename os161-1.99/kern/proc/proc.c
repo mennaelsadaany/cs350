@@ -290,7 +290,7 @@ proc_create_runprogram(const char *name)
 	proc_count++;
 	int i=2; 
 	while(i<32765){
-		if (pidarray[i].pid == NULL){
+		if (pidarray[i].pid == 0){
 			proc->pid = i;   
 			break; 
 		}
