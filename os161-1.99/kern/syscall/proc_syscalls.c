@@ -110,8 +110,8 @@ sys_fork(struct trapframe *tf, pid_t *retval) {
           return ENOMEM; 
         } 
 
-        struct addrspace *temp = kmalloc(sizeof(addrspace));
-         err= as_copy(curproc->p_addrspace, &temp);
+        struct addrspace *temp;// = (struct addrspace *)kmalloc(sizeof(addrspace));
+        err= as_copy(curproc->p_addrspace, &temp);
          
     as_activate();
 
@@ -119,11 +119,11 @@ sys_fork(struct trapframe *tf, pid_t *retval) {
 
     struct trapframe *newtrapframe = (struct trapframe *)kmalloc(sizeof(struct trapframe*));
 
-    if(newtrapframe == NULL) {
-        proc_destroy(newproc);
-        kfree(newproc->p_addrspace);
-        return ENOMEM;
-    }
+      if(newtrapframe == NULL) {
+          proc_destroy(newproc);
+          kfree(newproc->p_addrspace);
+          return ENOMEM;
+      }
     memcpy(newtrapframe, tf, sizeof(struct trapframe *));
     err = thread_fork(curthread->t_name, newproc, enter_forked_process, newtrapframe, 0);
     *retval = newproc->pid; 
