@@ -49,6 +49,7 @@
 #include <vnode.h>
 #include <vfs.h>
 #include <synch.h>
+#include <spinlock.h>
 #include <kern/fcntl.h>  
 
 /*
@@ -291,7 +292,7 @@ proc_create_runprogram(const char *name)
     process.parentpid=proc->parentpid; 
     process.exited=proc->exited; 
     process.exitcode= proc->exitcode; 
-    char mypid[] = "pid: "+pid;
+    char mypid[] = "pid: "+proc->pid;
     struct lock *mylock = lock_create(mypid); 
 
 	V(proc_count_mutex);
