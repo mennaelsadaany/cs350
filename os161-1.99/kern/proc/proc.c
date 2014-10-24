@@ -222,15 +222,13 @@ proc_create_runprogram(const char *name)
 {
 	struct proc *proc;
 	char *console_path;
-	proc->pid= pidcounter++; 
+	
 	proc = proc_create(name);
 	if (proc == NULL) {
 		return NULL;
 	}
 
-	proc->parentpid = 1;   
-    proc->exitcode = -1;
-    proc->exited = false;
+
 
 #ifdef UW
 	/* open the console - this should always succeed */
@@ -273,6 +271,10 @@ proc_create_runprogram(const char *name)
            are created using a call to proc_create_runprogram  */
 	P(proc_count_mutex); 
 	proc_count++;
+	proc->pid= pidcounter++; 
+	proc->parentpid = 1;   
+    proc->exitcode = -1;
+    proc->exited = false;
 	V(proc_count_mutex);
 #endif // UW
 
