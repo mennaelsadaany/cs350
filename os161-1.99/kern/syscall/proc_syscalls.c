@@ -27,7 +27,7 @@ void sys__exit(int exitcode) {
   p->exitcode = exitcode;
   p->exited = true;
 
-  for (i=0; i < MAX_PID; i++;){
+  for (int i=0; i < MAX_PID; i++;){
     if (curproc->pid == pidarray[i].pid){
         p->exitcode = exitcode;
         p->exited = true;
