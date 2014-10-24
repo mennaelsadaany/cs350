@@ -60,10 +60,10 @@ int pidcounter=2;
 
 typedef struct mypid
 {
-	int pid=NULL; 
-	int exitcode=NULL;
-	bool exited=NULL; 
-	int parentpid=NULL; 
+	int pid=0; 
+	int exitcode=-1;
+	bool exited=false; 
+	int parentpid=1; 
 	struct lock *lock=NULL; 
 } mypid;
 
