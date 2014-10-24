@@ -64,7 +64,7 @@ typedef struct mypid
 	int exitcode;
 	bool exited; 
 	int parentpid; 
-	lock mylock; 
+	struct lock mylock; 
 } mypid;
 
 mypid pidarray[32765]; 
@@ -293,7 +293,7 @@ proc_create_runprogram(const char *name)
     process.exited=proc->exited; 
     process.exitcode= proc->exitcode; 
     char mypid[] = "pid: "+proc->pid;
-    struct lock *mylock = lock_create(mypid); 
+    lock *mylock = lock_create(mypid); 
 
 	V(proc_count_mutex);
 #endif // UW
