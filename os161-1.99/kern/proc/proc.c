@@ -80,7 +80,12 @@ struct proc *
 proc_create(const char *name)
 {
 	struct proc *proc;
+<<<<<<< HEAD
 
+=======
+	int exitcode; 
+	bool exited; 
+>>>>>>> parent of 55048a0... using threadfork
 	proc = kmalloc(sizeof(*proc));
 	if (proc == NULL) {
 		return NULL;
@@ -227,10 +232,6 @@ proc_create_runprogram(const char *name)
 	if (proc == NULL) {
 		return NULL;
 	}
-
-	proc->parentpid = 1;   
-    proc->exitcode = -1;
-    proc->exited = false;
 
 #ifdef UW
 	/* open the console - this should always succeed */
