@@ -292,8 +292,7 @@ proc_create_runprogram(const char *name)
     process.parentpid=proc->parentpid; 
     process.exited=proc->exited; 
     process.exitcode= proc->exitcode; 
-    char mypidname[] = "pid: "+ proc->pid;
-    process.lock = lock_create(mypidname); 
+    process.lock = lock_create("test"); 
 
 	V(proc_count_mutex);
 #endif // UW
