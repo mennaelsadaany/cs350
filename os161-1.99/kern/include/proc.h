@@ -46,7 +46,7 @@ struct vnode;
 struct semaphore;
 #endif // UW
 
-extern pidarray; 
+extern process pidarray; 
 /*
  * Process structure.
  */
