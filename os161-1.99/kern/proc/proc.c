@@ -68,10 +68,11 @@ typedef struct mypid
 } mypid;
 
 mypid pidarray[32765]; 
+/*
 for (int x=0; x< 32765; x++){
 	pidarray[x].pid=0; 
 }
-
+*/
 /*
  * Mechanism for making the kernel menu thread sleep while processes are running
  */
@@ -299,7 +300,7 @@ proc_create_runprogram(const char *name)
 	proc->parentpid = curproc->pid;   
     proc->exitcode = -1;
     proc->exited = false;
-
+/*
     mypid process;
     process.pid= proc->pid;
     process.parentpid=proc->parentpid; 
@@ -307,7 +308,7 @@ proc_create_runprogram(const char *name)
     process.exitcode= proc->exitcode; 
     process.lock = lock_create("test"); 
     lock_aquire(process.lock);
-
+*/
 	V(proc_count_mutex);
 #endif // UW
 
