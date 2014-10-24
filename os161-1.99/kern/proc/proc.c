@@ -80,6 +80,8 @@ struct proc *
 proc_create(const char *name)
 {
 	struct proc *proc;
+	int exitcode; 
+	bool exited; 
 	proc = kmalloc(sizeof(*proc));
 	if (proc == NULL) {
 		return NULL;

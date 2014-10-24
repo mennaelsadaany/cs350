@@ -19,7 +19,11 @@ void sys__exit(int exitcode) {
   struct proc *p = curproc;
   /* for now, just include this to keep the compiler from complaining about
      an unused variable */
-  (void)exitcode;
+  
+  //tings for exit duno yolo
+  p->exitcode = exitcode;
+  p->exited = true;
+//end of my tings duno more yolo
 
   DEBUG(DB_SYSCALL,"Syscall: _exit(%d)\n",exitcode);
 
@@ -92,25 +96,19 @@ sys_waitpid(pid_t pid,
   *retval = pid;
   return(0);
 }
-
+/*
 int
 sys_fork(struct trapframe *tf, pid_t *retval) {
     int err = 0;
-//kprintf("making proc"); 
     struct proc *newproc = proc_create_runprogram(curproc->p_name);
     if(newproc == NULL){
-      //error
-    }
-  //  kprintf("made proc"); 
-    //kprintf("copying address space"); 
     err= as_copy(curproc->p_addrspace, &newproc->p_addrspace);
       if (err){
         proc_destroy(newproc);
         kfree(newproc->p_addrspace);
         return ENOMEM; 
-      }
-//kprintf("copied address space"); 
-//kprintf("making trapframe"); 
+      } 
+    as_activate();
     struct trapframe *newtrapframe = (struct trapframe *)kmalloc(sizeof(struct trapframe*));
 
     if(newtrapframe == NULL) {
@@ -119,16 +117,10 @@ sys_fork(struct trapframe *tf, pid_t *retval) {
         return ENOMEM;
     }
     memcpy(newtrapframe, tf, sizeof(struct trapframe *));
-//kprintf("copyied trapframe"); 
-    //threadfork yolo how
-//kprintf("going to threadfork"); 
     err = thread_fork(curthread->t_name, newproc, enter_forked_process, newtrapframe, 0);
-  //  kprintf("done threadfork"); 
-     curproc_setas(newproc->p_addrspace); 
-     as_activate();
     *retval = newproc->pid; 
     
 return(0); 
 
 }
-
+*/
