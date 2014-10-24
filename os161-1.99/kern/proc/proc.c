@@ -50,7 +50,9 @@
 #include <vfs.h>
 #include <synch.h>
 #include <spinlock.h>
-#include <kern/fcntl.h>  
+#include <kern/fcntl.h> 
+#include <thread.h>
+#include <wchan.h>
 
 /*
  * The process for the kernel; this holds all the kernel-only threads.
