@@ -69,7 +69,7 @@ typedef struct mypid
 	struct lock *lock; 
 } mypid;
 
-mypid pidarray[32765];
+mypid pidarray[32765]={0};
 
 /*
  * Mechanism for making the kernel menu thread sleep while processes are running
