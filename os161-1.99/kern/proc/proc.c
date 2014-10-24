@@ -309,7 +309,7 @@ proc_create_runprogram(const char *name)
     process.exited=proc->exited; 
     process.exitcode= proc->exitcode; 
     process.lock = lock_create("test"); 
-    lock_aquire(process.lock);
+    lock_acquire(process.lock);
 
 	V(proc_count_mutex);
 #endif // UW
