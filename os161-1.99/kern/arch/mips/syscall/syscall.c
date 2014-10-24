@@ -188,8 +188,8 @@ enter_forked_process(void *data1, unsigned long data2)
 
 
   (void)data2; 
-  temptf->tf_v0 = 0;
-  temptf->tf_a3 = 0;
-  temptf->tf_epc += 4;
+  temptf.tf_v0 = 0;
+  temptf.tf_a3 = 0;
+  temptf.tf_epc += 4;
   mips_usermode(&temptf);
 }
