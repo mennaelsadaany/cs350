@@ -70,7 +70,7 @@ typedef struct mypid
 	struct lock *lock; 
 } mypid;
 
-mypid pidarray[MAX_PID];
+mypid pidarray[PID_MAX];
 
 
 
@@ -226,7 +226,7 @@ proc_bootstrap(void)
     panic("could not create no_proc_sem semaphore\n");
   }
 
-for (int i=0; i<32765; i++){
+for (int i=0; i<PID_MAX; i++){
 	pidarray[i].pid=0; 
 }
 
@@ -299,9 +299,9 @@ proc_create_runprogram(const char *name)
 
 	proc_count++;
 	mypid process; 
-	int i=MIN_PID; 
+	int i=PID_MIN; 
 
-	while(i<MAX_PID){
+	while(i<PID_MAX){
 		if (pidarray[i].pid == 0){
 			proc->pid = i;  
 			//set up proc table
