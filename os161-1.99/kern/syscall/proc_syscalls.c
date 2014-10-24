@@ -97,18 +97,17 @@ sys_waitpid(pid_t pid,
   *retval = pid;
   return(0);
 }
-/*
+
 int
 sys_fork(struct trapframe *tf, pid_t *retval) {
     int err = 0;
     struct proc *newproc = proc_create_runprogram(curproc->p_name);
-    if(newproc == NULL){
-    err= as_copy(curproc->p_addrspace, &newproc->p_addrspace);
-      if (err){
-        proc_destroy(newproc);
-        kfree(newproc->p_addrspace);
-        return ENOMEM; 
-      } 
+      err= as_copy(curproc->p_addrspace, &newproc->p_addrspace);
+        if (err){
+          proc_destroy(newproc);
+          kfree(newproc->p_addrspace);
+          return ENOMEM; 
+        } 
     as_activate();
     struct trapframe *newtrapframe = (struct trapframe *)kmalloc(sizeof(struct trapframe*));
 
@@ -124,5 +123,4 @@ sys_fork(struct trapframe *tf, pid_t *retval) {
 return(0); 
 
 }
-}*/
 
