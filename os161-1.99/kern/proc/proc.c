@@ -69,7 +69,9 @@ typedef struct mypid
 	struct lock *lock; 
 } mypid;
 
-mypid pidarray[32765]={0};
+mypid pidarray[32765];
+
+
 
 /*
  * Mechanism for making the kernel menu thread sleep while processes are running
@@ -222,6 +224,11 @@ proc_bootstrap(void)
   if (no_proc_sem == NULL) {
     panic("could not create no_proc_sem semaphore\n");
   }
+
+for (int i=0; i<32765; i++){
+	pidarray[i].pid=0; 
+}
+
 #endif // UW 
 }
 
