@@ -80,12 +80,12 @@ struct proc *
 proc_create(const char *name)
 {
 	struct proc *proc;
-<<<<<<< HEAD
+
 
 =======
 	int exitcode; 
 	bool exited; 
->>>>>>> parent of 55048a0... using threadfork
+
 	proc = kmalloc(sizeof(*proc));
 	if (proc == NULL) {
 		return NULL;
@@ -233,13 +233,11 @@ proc_create_runprogram(const char *name)
 		return NULL;
 	}
 
-<<<<<<< HEAD
 =======
 	proc->parentpid = 1;   
     proc->exitcode = -1;
     proc->exited = false;
 
->>>>>>> fbbe610c5826158eeffd72f401258ae80bfed9a2
 #ifdef UW
 	/* open the console - this should always succeed */
 	console_path = kstrdup("con:");
