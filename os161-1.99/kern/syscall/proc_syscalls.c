@@ -37,17 +37,18 @@ void sys__exit(int exitcode) {
         pidarray[i].exitstatus = _MKWAIT_EXIT(exitcode); 
         lock_release(pidarray[i].lock); 
     }
-
+/*
     if (pidarray[i].parentpid==-1){
       pidarray[i].pid = -5;
 
-    }
+    }*/
   }
 
   for (int i=0; i < PID_MAX; i++){
    if (curproc->pid == pidarray[i].parentpid){
         if (pidarray[i].exited == true){
           pidarray[i].pid = -5;
+          lock_destroy(pidarray[i].lock); 
         }
 
       pidarray[i].parentpid=-1; //yous an orphan bye felica
@@ -173,8 +174,8 @@ sys_fork(struct trapframe *tf, pid_t *retval) {
           kfree(newproc->p_addrspace);
           return ENOMEM;
       }
-   // memcpy(newtrapframe, tf, sizeof(struct trapframe));
-   *newtrapframe=*tf; //what is only shazzy dunos
+    memcpy(newtrapframe, tf, sizeof(struct trapframe));
+  // *newtrapframe=*tf; //what is only shazzy dunos
     err = thread_fork(curthread->t_name, newproc, enter_forked_process, newtrapframe, 0);
     *retval = newproc->pid; 
     
