@@ -12,6 +12,7 @@
 #include <addrspace.h>
 #include <mips/trapframe.h>
 #include <limits.h>
+#include <synch.h>
 
   /* this implementation of sys__exit does not do anything with the exit code */
   /* this needs to be fixed to get exit() and waitpid() working properly */
@@ -142,8 +143,9 @@ sys_waitpid(pid_t pid,
 int
 sys_fork(struct trapframe *tf, pid_t *retval) {
     int err = 0;
-
+    lock_acquire("globallock"); 
     struct proc *newproc = proc_create_runprogram(curproc->p_name);
+    lock_release("globallock"); 
         if (newproc == NULL){
           return ENOMEM; 
         } 
