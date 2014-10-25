@@ -29,9 +29,9 @@ void sys__exit(int exitcode) {
 
   for (int i=0; i < PID_MAX; i++){
     if (curproc->pid == pidarray[i].pid){
-        p->exitcode = exitcode;
-        p->exited = true;
-        p->exitstatus = _MKWAIT_EXIT(exitcode); 
+        pidarray[i].exitcode = exitcode;
+        pidarray[i].exited = true;
+        pidarray[i].exitstatus = _MKWAIT_EXIT(exitcode); 
         lock_release(pidarray[i].lock); 
     }
   }
