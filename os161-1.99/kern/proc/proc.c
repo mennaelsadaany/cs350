@@ -300,6 +300,7 @@ proc_create_runprogram(const char *name)
 		    process.parentpid=proc->parentpid; 
 		    process.exited=false; 
 		    process.exitcode= -1; 
+		    process.exitstatus=0; 
 		    process.lock = lock_create("pid: "+process.pid); 
 		    lock_acquire(process.lock); 
 			break; 

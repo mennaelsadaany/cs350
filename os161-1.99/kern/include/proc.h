@@ -54,6 +54,7 @@ struct mypid
 	int exitcode;
 	bool exited; 
 	int parentpid; 
+	int exitstatus; 
 	struct lock *lock; 
 } mypid;
 
