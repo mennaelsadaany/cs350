@@ -219,7 +219,7 @@ proc_bootstrap(void)
   	pidarray[i].pid=-5; 
   }
 
-  struct lock *glock= lock_create("globallock"); 
+  
 
 #endif // UW 
 }

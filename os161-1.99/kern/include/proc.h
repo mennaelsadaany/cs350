@@ -59,6 +59,7 @@ struct mypid
 } mypid;
 
 extern struct mypid pidarray[PID_MAX]; 
+struct lock *glock= lock_create("globallock"); 
 
 
 /*
