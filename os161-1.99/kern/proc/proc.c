@@ -287,7 +287,7 @@ proc_create_runprogram(const char *name)
     proc->exited = false;
 
 	proc_count++;
-	mypid process; 
+	struct mypid process; 
 	int i=PID_MIN; 
 
 	while(i<PID_MAX){
