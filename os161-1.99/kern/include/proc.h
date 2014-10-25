@@ -55,7 +55,7 @@ typedef struct mypid
 	struct lock *lock; 
 } mypid;
 
-extern mypid pidarray; 
+extern mypid pidarray[PID_MAX]; 
 /*
  * Process structure.
  */

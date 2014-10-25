@@ -62,10 +62,6 @@ struct proc *kproc;
 int pidcounter=2; 
 
 
-mypid pidarray[PID_MAX];
-
-
-
 /*
  * Mechanism for making the kernel menu thread sleep while processes are running
  */
