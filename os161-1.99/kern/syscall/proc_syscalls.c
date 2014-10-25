@@ -46,7 +46,7 @@ void sys__exit(int exitcode) {
         if (pidarray[i].exited == true){
           pidarray[i].pid = -5;
         }
-        
+
       pidarray[i].parentpid=-1; //yous an orphan bye felica
     }
   }
@@ -119,23 +119,17 @@ sys_waitpid(pid_t pid,
 
   for (int i=0; i < PID_MAX; i++){
     if ((pidarray[i].pid == pid) &&
-        (pidarray[i].pid == currproc->pid)){
+        (pidarray[i].parentpid == currproc->pid)){
           lock_acquire(pidarray[i].lock); 
     }
   }
-//if your parents left you an orphan sorry bae
-  for (int i=0; i < PID_MAX; i++){
-    if ((pidarray[i].pid == currproc->pid)&&
-        (pidarray[i].exited == false)){
-          pidarray[i].parentid = -1; //go clean up yourself. 
-    }
-  }
+exitstatus = pidarray[i].exitstatus; 
 
   if (options != 0) {
     return(EINVAL);
   }
   /* for now, just pretend the exitstatus is 0 */
-  exitstatus = 0;
+  //exitstatus = 0;
   result = copyout((void *)&exitstatus,status,sizeof(int));
   if (result) {
     return(result);
