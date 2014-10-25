@@ -44,13 +44,13 @@ void sys__exit(int exitcode) {
         pidarray[curproc->pid].exitstatus = _MKWAIT_EXIT(exitcode); 
         
       for (int i=0; i < PID_MAX; i++){
-         //if (curproc->pid == pidarray[i].parentpid){
+         if (curproc->pid == pidarray[i].parentpid){
           // if (pidarray[i].exited == true){ //parent is leaving, noone cares about child, reuse PID
              // pidarray[i].pid = -5;
            // }
            // else 
            pidarray[i].parentpid=-1; //yous an orphan bye felica
-//         }
+         }
       }
     }
 
