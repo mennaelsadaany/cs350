@@ -33,7 +33,10 @@ void sys__exit(int exitcode) {
 
    if (pidarray[curproc->pid].parentpid==-1) {
       //you dont have a parent you can just exit 
-       pidarray[curproc->pid].pid = -5;
+      pidarray[curproc->pid].pid = -5;
+      pidarray[curproc->pid].exited=false; 
+      pidarray[curproc->pid].exitcode= -1; 
+      pidarray[curproc->pid].exitstatus=0; 
     }
 
     else {
