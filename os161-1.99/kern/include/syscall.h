@@ -38,6 +38,7 @@ struct trapframe; /* from <machine/trapframe.h> */
  */
 
 void syscall(struct trapframe *tf);
+extern struct lock *glock; 
 
 /*
  * Support functions.
