@@ -124,14 +124,12 @@ sys_waitpid(pid_t pid,
 //check if parent
 lock_acquire(glock);
 
-if (pidarray[pid].exited == true){
-  exitstatus = pidarray[pid].exitstatus; 
-}
-else{
-  while(pidarray[pid].exited == false){
+
+while(pidarray[pid].exited == false){
     cv_wait(globalcv,glock); 
-  } 
 }
+exitstatus = pidarray[pid].exitstatus;  
+
 lock_release(glock);
 
 
@@ -140,11 +138,13 @@ lock_release(glock);
   }
   /* for now, just pretend the exitstatus is 0 */
   //exitstatus = 0;
+  *retval = pid;
+  status= (userptr_t)pidarray[pid].exitstatus; 
   result = copyout((void *)&exitstatus,status,sizeof(int));
   if (result) {
     return(result);
   }
-  *retval = pid;
+ 
   return(0);
 }
 
