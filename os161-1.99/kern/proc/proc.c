@@ -214,9 +214,9 @@ proc_bootstrap(void)
     panic("could not create no_proc_sem semaphore\n");
   }
 
-for (int i=0; i<PID_MAX; i++){
-	pidarray[i].pid=0; 
-}
+  for (int i=0; i<PID_MAX; i++){
+  	pidarray[i].pid=0; 
+  }
 
 #endif // UW 
 }
@@ -300,8 +300,7 @@ proc_create_runprogram(const char *name)
 		    process.exited=false; 
 		    process.exitcode= -1; 
 		    process.lock = lock_create("pid: "+process.pid); 
-		    lock_acquire(process.lock);
-    //  
+		    lock_acquire(process.lock); 
 			break; 
 		}
 		else

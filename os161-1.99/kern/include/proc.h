@@ -38,14 +38,15 @@
 
 #include <spinlock.h>
 #include <thread.h> /* required for struct threadarray */
- #include <synch.h>
- #include <limits.h>
+#include <synch.h>
+#include <limits.h>
+#include <array.h> 
 
 struct addrspace;
 struct vnode;
 #ifdef UW
 struct semaphore;
-#endif // UW
+#endif //UW
 
 extern typedef struct mypid
 {
