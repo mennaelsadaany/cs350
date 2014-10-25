@@ -145,9 +145,9 @@ sys_waitpid(pid_t pid,
 int
 sys_fork(struct trapframe *tf, pid_t *retval) {
     int err = 0;
-    lock_acquire("globallock"); 
+    lock_acquire(glock); 
     struct proc *newproc = proc_create_runprogram(curproc->p_name);
-    lock_release("globallock"); 
+    lock_release(glock); 
         if (newproc == NULL){
           return ENOMEM; 
         } 
