@@ -61,6 +61,14 @@
 struct proc *kproc;
 int pidcounter=2; 
 
+struct mypid
+{
+	int pid; 
+	int exitcode;
+	bool exited; 
+	int parentpid; 
+	struct lock *lock; 
+} 
 
 /*
  * Mechanism for making the kernel menu thread sleep while processes are running
