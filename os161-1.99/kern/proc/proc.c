@@ -219,7 +219,7 @@ proc_bootstrap(void)
   	pidarray[i].pid=-5; 
   }
 
-  
+  glock = lock_create("globallock"); 
 
 #endif // UW 
 }
