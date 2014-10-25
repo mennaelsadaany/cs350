@@ -33,7 +33,7 @@ void sys__exit(int exitcode) {
 
    if (pidarray[curproc->pid].parentpid==-1) {
       //you dont have a parent you can just exit 
-       pidarray[i].pid = -5;
+       pidarray[curproc->pid].pid = -5;
     }
 
     else {
@@ -54,7 +54,7 @@ void sys__exit(int exitcode) {
     }
 
 
-  cv_broadcast(children, glock); 
+  cv_broadcast(globalcv, glock); 
   lock_release(glock);
 
 
@@ -123,12 +123,12 @@ sys_waitpid(pid_t pid,
 //check if parent
 lock_acquire(glock);
 
-if (pidarray[pid].existed == true){
+if (pidarray[pid].exited == true){
   exitstatus = pidarray[pid].exitstatus; 
 }
 else{
-  while(pidarray[pid].existed == false){
-    cv_wait(children,glock); 
+  while(pidarray[pid].exited == false){
+    cv_wait(globalcv,glock); 
   } 
 }
 lock_release(glock);

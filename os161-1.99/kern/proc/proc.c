@@ -222,7 +222,7 @@ proc_bootstrap(void)
   }
 
   glock = lock_create("globallock"); 
- cv_create("children"); 
+ globalcv = cv_create("children"); 
 
 #endif // UW 
 }
