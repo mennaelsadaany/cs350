@@ -34,7 +34,24 @@ void sys__exit(int exitcode) {
         pidarray[i].exitstatus = _MKWAIT_EXIT(exitcode); 
         lock_release(pidarray[i].lock); 
     }
+
+    if (pidarray[i].parentpid=-1){
+      pidarray[i].pid = -5;
+
+    }
   }
+
+  for (int i=0; i < PID_MAX; i++){
+   if (curproc->pid == pidarray[i].parentpid){
+        if (pidarray[i].exited == true){
+          pidarray[i].pid = -5;
+        }
+        
+      pidarray[i].parentpid=-1; //yous an orphan bye felica
+    }
+  }
+
+
 
   //(void)exitcode; 
 //end of my tings duno more yolo
@@ -97,6 +114,22 @@ sys_waitpid(pid_t pid,
 
      Fix this!
   */
+
+//check if parent
+
+  for (int i=0; i < PID_MAX; i++){
+    if ((pidarray[i].pid == pid) &&
+        (pidarray[i].pid == currproc->pid)){
+          lock_acquire(pidarray[i].lock); 
+    }
+  }
+//if your parents left you an orphan sorry bae
+  for (int i=0; i < PID_MAX; i++){
+    if ((pidarray[i].pid == currproc->pid)&&
+        (pidarray[i].exited == false)){
+          pidarray[i].parentid = -1; //go clean up yourself. 
+    }
+  }
 
   if (options != 0) {
     return(EINVAL);

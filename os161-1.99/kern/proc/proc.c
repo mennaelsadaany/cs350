@@ -216,7 +216,7 @@ proc_bootstrap(void)
   }
 
   for (int i=0; i<PID_MAX; i++){
-  	pidarray[i].pid=0; 
+  	pidarray[i].pid=-5; 
   }
 
 #endif // UW 
@@ -291,7 +291,7 @@ proc_create_runprogram(const char *name)
 	int i=PID_MIN; 
 
 	while(i<PID_MAX){
-		if (pidarray[i].pid == 0){
+		if (pidarray[i].pid == -5){
 			proc->pid = i;  
 			//set up proc table
 
