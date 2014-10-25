@@ -48,8 +48,7 @@ struct vnode;
 struct semaphore;
 #endif //UW
 
-extern typedef struct mypid;
-
+extern typedef struct mypid
 {
 	int pid; 
 	int exitcode;
