@@ -60,7 +60,7 @@ struct mypid
 
 extern struct mypid pidarray[PID_MAX]; 
 
-extern struct lock *glock;
+extern struct lock glock;
 
 
 /*
