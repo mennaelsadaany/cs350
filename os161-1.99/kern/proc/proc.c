@@ -60,7 +60,7 @@
  */
 struct proc *kproc;
 int pidcounter=2; 
-mypid pidarray[PID_MAX];
+struct mypid pidarray[PID_MAX];
 
 
 /*
