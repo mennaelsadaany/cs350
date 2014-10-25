@@ -119,7 +119,7 @@ sys_waitpid(pid_t pid,
 
   for (int i=0; i < PID_MAX; i++){
     if ((pidarray[i].pid == pid) &&
-        (pidarray[i].parentpid == currproc->pid)){
+        (pidarray[i].parentpid == curproc->pid)){
           lock_acquire(pidarray[i].lock); 
     }
   }
