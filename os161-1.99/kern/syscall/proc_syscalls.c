@@ -35,7 +35,7 @@ void sys__exit(int exitcode) {
         lock_release(pidarray[i].lock); 
     }
 
-    if (pidarray[i].parentpid=-1){
+    if (pidarray[i].parentpid==-1){
       pidarray[i].pid = -5;
 
     }
@@ -120,10 +120,11 @@ sys_waitpid(pid_t pid,
   for (int i=0; i < PID_MAX; i++){
     if ((pidarray[i].pid == pid) &&
         (pidarray[i].parentpid == curproc->pid)){
-          lock_acquire(pidarray[i].lock); 
+        lock_acquire(pidarray[i].lock); 
+        exitstatus = pidarray[i].exitstatus; 
     }
   }
-exitstatus = pidarray[i].exitstatus; 
+
 
   if (options != 0) {
     return(EINVAL);
