@@ -62,6 +62,7 @@ struct proc *kproc;
 int pidcounter=2; 
 struct mypid pidarray[PID_MAX];
 struct lock *glock; 
+struct cv *globalcv; 
 
 
 /*
@@ -221,6 +222,7 @@ proc_bootstrap(void)
   }
 
   glock = lock_create("globallock"); 
+ cv_create("children"); 
 
 #endif // UW 
 }
@@ -304,8 +306,8 @@ proc_create_runprogram(const char *name)
 		    process.exited=false; 
 		    process.exitcode= -1; 
 		    process.exitstatus=0; 
-		    process.lock = lock_create("pid: "+process.pid); 
-		    lock_acquire(process.lock); 
+		   // process.lock = lock_create("pid: "+process.pid); 
+		  //  lock_acquire(process.lock); 
 			break; 
 		}
 		else

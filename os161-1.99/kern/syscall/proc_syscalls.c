@@ -27,34 +27,35 @@ void sys__exit(int exitcode) {
      an unused variable */
   
   //tings for exit duno yolo
-  p->exitcode = exitcode;
-  p->exited = true;
 
-  for (int i=0; i < PID_MAX; i++){
-    if (curproc->pid == pidarray[i].pid){
-        pidarray[i].exitcode = exitcode;
-        pidarray[i].exited = true;
-        pidarray[i].exitstatus = _MKWAIT_EXIT(exitcode); 
-        lock_release(pidarray[i].lock); 
+  
+  lock_acquire(glock);
+
+   if (pidarray[curproc->pid].parentpid==-1) {
+      //you dont have a parent you can just exit 
+       pidarray[i].pid = -5;
     }
-/*
-    if (pidarray[i].parentpid==-1){
-      pidarray[i].pid = -5;
 
-    }*/
-  }
-
-  for (int i=0; i < PID_MAX; i++){
-   if (curproc->pid == pidarray[i].parentpid){
-        if (pidarray[i].exited == true){
-          pidarray[i].pid = -5;
-          lock_destroy(pidarray[i].lock); 
-        }
-
-      pidarray[i].parentpid=-1; //yous an orphan bye felica
+    else {
+        p->exitcode = exitcode;
+        p->exited = true;
+        pidarray[curproc->pid].exitcode = exitcode;
+        pidarray[curproc->pid].exited = true;
+        pidarray[curproc->pid].exitstatus = _MKWAIT_EXIT(exitcode); 
+        
+      for (int i=0; i < PID_MAX; i++){
+         if (curproc->pid == pidarray[i].parentpid){
+           if (pidarray[i].exited == true){ //parent is leaving, noone cares about child, reuse PID
+              pidarray[i].pid = -5;
+            }
+            else pidarray[i].parentpid=-1; //yous an orphan bye felica
+         }
+      }
     }
-  }
 
+
+  cv_broadcast(children, glock); 
+  lock_release(glock);
 
 
   //(void)exitcode; 
@@ -120,14 +121,17 @@ sys_waitpid(pid_t pid,
   */
 
 //check if parent
+lock_acquire(glock);
 
-  for (int i=0; i < PID_MAX; i++){
-    if ((pidarray[i].pid == pid) &&
-        (pidarray[i].parentpid == curproc->pid)){
-        lock_acquire(pidarray[i].lock); 
-        exitstatus = pidarray[i].exitstatus; 
-    }
-  }
+if (pidarray[pid].existed == true){
+  exitstatus = pidarray[pid].exitstatus; 
+}
+else{
+  while(pidarray[pid].existed == false){
+    cv_wait(children,glock); 
+  } 
+}
+lock_release(glock);
 
 
   if (options != 0) {
