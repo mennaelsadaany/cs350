@@ -61,7 +61,7 @@
 struct proc *kproc;
 int pidcounter=2; 
 struct mypid pidarray[PID_MAX];
-struct lock *glock; 
+struct lock glock; 
 
 
 /*
