@@ -48,7 +48,7 @@ struct vnode;
 struct semaphore;
 #endif //UW
 
-extern typedef struct mypid
+typedef struct mypid
 {
 	int pid; 
 	int exitcode;
@@ -58,6 +58,7 @@ extern typedef struct mypid
 } mypid;
 
 extern mypid pidarray[PID_MAX]; 
+
 /*
  * Process structure.
  */
