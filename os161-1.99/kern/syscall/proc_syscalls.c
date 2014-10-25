@@ -139,7 +139,7 @@ lock_release(glock);
   /* for now, just pretend the exitstatus is 0 */
   //exitstatus = 0;
   *retval = pid;
-  status= (userptr_t)pidarray[pid].exitstatus; 
+  //status= (userptr_t)pidarray[pid].exitstatus; 
   result = copyout((void *)&exitstatus,status,sizeof(int));
   if (result) {
     return(result);
