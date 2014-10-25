@@ -61,14 +61,6 @@
 struct proc *kproc;
 int pidcounter=2; 
 
-typedef struct mypid
-{
-	int pid; 
-	int exitcode;
-	bool exited; 
-	int parentpid; 
-	struct lock *lock; 
-} mypid;
 
 mypid pidarray[PID_MAX];
 
