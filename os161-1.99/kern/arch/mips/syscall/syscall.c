@@ -185,7 +185,7 @@ enter_forked_process(void *data1, unsigned long data2)
 {
   struct trapframe temptf =  *(struct trapframe *) data1;
  // kfree(data1); 
-
+as_activate();
   (void)data2; 
   temptf.tf_v0 = 0;
   temptf.tf_a3 = 0;
