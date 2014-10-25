@@ -47,7 +47,14 @@ struct vnode;
 struct semaphore;
 #endif // UW
 
-extern typedef struct mypid; 
+extern typedef struct mypid
+{
+	int pid; 
+	int exitcode;
+	bool exited; 
+	int parentpid; 
+	struct lock *lock; 
+} mypid;
 
 extern mypid pidarray[PID_MAX]; 
 /*
