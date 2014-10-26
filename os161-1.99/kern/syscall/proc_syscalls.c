@@ -113,6 +113,7 @@ sys_waitpid(pid_t pid,
 lock_acquire(glock);
 
 if (pidarray[pid].parentpid != curproc->pid){
+  kprint("not parentpid"); 
 lock_release(glock);
   return ECHILD;
 }
