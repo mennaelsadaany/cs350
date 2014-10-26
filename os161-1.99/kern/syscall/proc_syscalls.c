@@ -111,9 +111,10 @@ sys_waitpid(pid_t pid,
   int result;
 
 lock_acquire(glock);
-if (pidarray[pid].parentpid != curproc->pid){
+
+/*if (pidarray[pid].parentpid != curproc->pid){
   return ECHILD;
-}
+}*/
 while(pidarray[pid].exited == false){
     cv_wait(globalcv,glock); 
 }
@@ -124,8 +125,7 @@ lock_release(glock);
   if (options != 0) {
     return(EINVAL);
   }
-  
-  
+
   result = copyout((void *)&exitstatus,status,sizeof(int));
   if (result) {
     return(result);
