@@ -300,12 +300,13 @@ proc_create_runprogram(const char *name)
 			proc->pid = i;  
 			//set up proc table
 
-			pidarray[i]= process;
+			
 		    process.pid= i; 
 		    process.parentpid=proc->parentpid; 
 		    process.exited=false; 
 		    process.exitcode= -1; 
 		    process.exitstatus=0; 
+		    pidarray[i]= process;
 		   // process.lock = lock_create("pid: "+process.pid); 
 		  //  lock_acquire(process.lock); 
 			break; 
