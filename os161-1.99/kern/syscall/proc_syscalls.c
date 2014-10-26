@@ -48,15 +48,10 @@ void sys__exit(int exitcode) {
         
       for (int i=0; i < PID_MAX; i++){
          if (curproc->pid == pidarray[i].parentpid){
-          // if (pidarray[i].exited == true){ //parent is leaving, noone cares about child, reuse PID
-             // pidarray[i].pid = -5;
-           // }
-           // else 
            pidarray[i].parentpid=-1; //yous an orphan bye felica
          }
       }
     }
-
 
   cv_broadcast(globalcv, glock); 
   lock_release(glock);
