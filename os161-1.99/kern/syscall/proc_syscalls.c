@@ -111,10 +111,12 @@ sys_waitpid(pid_t pid,
   int result;
 
 lock_acquire(glock);
-
-/*if (pidarray[pid].parentpid != curproc->pid){
+kprintf("have lock"); 
+if (pidarray[pid].parentpid != curproc->pid){
+  kprintf("not parentpid"); 
   return ECHILD;
-}*/
+}
+
 while(pidarray[pid].exited == false){
     cv_wait(globalcv,glock); 
 }
