@@ -182,6 +182,16 @@ return(0);
 int
 sys_execv(char * progname, char ** args )
 {
+  //copy arguments
+  //open executable, address space and load elf file
+  //copy args from kernel to to userstack
+  //enter process 
+
+  //get old address space
+  oldaddr=curproc_getas(); 
+
+
+
   (void)args; 
   struct addrspace *as;
   struct vnode *v;
@@ -225,6 +235,8 @@ sys_execv(char * progname, char ** args )
     /* p_addrspace will go away when curproc is destroyed */
     return result;
   }
+//destroy old addr space
+  as_destroy(oldaddr); 
 
   /* Warp to user mode. */
   enter_new_process(0 /*argc*/, NULL /*userspace addr of argv*/,
