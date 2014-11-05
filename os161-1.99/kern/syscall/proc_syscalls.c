@@ -13,6 +13,9 @@
 #include <mips/trapframe.h>
 #include <limits.h>
 #include <synch.h>
+#include <vm.h>
+#include <vfs.h>
+#include <kern/fcntl.h>
 
   /* this implementation of sys__exit does not do anything with the exit code */
   /* this needs to be fixed to get exit() and waitpid() working properly */
@@ -177,7 +180,7 @@ return(0);
 }
 
 int
-sys_execv(char * program, char ** args )
+sys_execv(char * programe, char ** args )
 {
   struct addrspace *as;
   struct vnode *v;
