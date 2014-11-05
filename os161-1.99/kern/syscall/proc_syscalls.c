@@ -188,7 +188,7 @@ sys_execv(char * progname, char ** args )
   //enter process 
 
   //get old address space
-  oldaddr=curproc_getas(); 
+  struct addrspace oldaddr=curproc_getas(); 
 
 
 
