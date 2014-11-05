@@ -180,8 +180,9 @@ return(0);
 }
 
 int
-sys_execv(char * programe, char ** args )
+sys_execv(char * progname, char ** args )
 {
+  (void)args; 
   struct addrspace *as;
   struct vnode *v;
   vaddr_t entrypoint, stackptr;
