@@ -345,7 +345,7 @@ as_complete_load(struct addrspace *as)
 }
 
 int
-as_define_stack(struct addrspace *as, vaddr_t *stackptr)
+as_define_stack(struct addrspace *as, vaddr_t *stackptr, char ** argarray, int argc)
 {
 	KASSERT(as->as_stackpbase != 0);
 

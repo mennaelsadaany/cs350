@@ -245,7 +245,7 @@ sys_execv(userptr_t  progname, userptr_t args )
   vfs_close(v);
 
   /* Define the user stack in the address space */
-  result = as_define_stack(as, &stackptr);
+  result = as_define_stack(as, &stackptr,argarray, argc);
   if (result) {
     /* p_addrspace will go away when curproc is destroyed */
     return result;
