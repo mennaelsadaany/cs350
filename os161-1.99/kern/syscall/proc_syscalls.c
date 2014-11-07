@@ -181,43 +181,29 @@ return(0);
 
 int
 sys_execv(userptr_t  progname, userptr_t args )
-{/*
-    if( progname == NULL ) {
-        return EFAULT;
-    }
-    if( strlen( progname ) > NAME_MAX ) {
-         return E2BIG;
-    } */
-  //get old address space
+{
   struct addrspace *oldaddr;
   oldaddr=curproc_getas(); 
+  int argc=0; 
+  
+  //how many args?  
+  char ** argv = (char**)args; 
 
-(void)args; 
-(void)progname;
-  //copy path name
-  /*
-  char prog[PATH_MAX];
-  copyinstr(progname, prog, strlen((char*)progname)+1, NULL);
-  */
-
-  //how many args?
-  /*
-  if (args != NULL){
-    while (args[argc] != NULL){
+  if (argv != NULL){
+    while (argv[argc] != NULL){
       argc++; 
     }
   }
 
- // char * argarray[argc]; 
+  char ** argarray= NULL;
+  argarray = kmalloc(argc*(sizeof(char*)));  
 
 //copy args into array 
-  if (args != NULL){
     for (int i=0; i<argc; i++){
-      int arglen=strlen((char*)args[i])+1; 
+      int arglen=strlen((char*)argv[i])+1; 
       argarray[i] = kmalloc((arglen) * sizeof(char)); 
-      copyinstr(args[i], argarray[i], arglen, NULL); 
+      copyinstr((const_userptr_t)argv[i], argarray[i], arglen, NULL); 
     }
-  }*/
 
   ///runprogram 
   struct addrspace *as;
