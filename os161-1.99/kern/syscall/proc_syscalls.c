@@ -254,8 +254,8 @@ sys_execv(userptr_t  progname, userptr_t args )
   as_destroy(oldaddr); 
 
   /* Warp to user mode. */
-  enter_new_process(0 /*argc*/, NULL /*userspace addr of argv*/,
-        stackptr, entrypoint);
+  enter_new_process(argc, (userptr_t)stackptr,
+        ROUNDUP(stackptr-8, 8), entrypoint);
   
   /* enter_new_process does not return. */
   panic("enter_new_process returned\n");
