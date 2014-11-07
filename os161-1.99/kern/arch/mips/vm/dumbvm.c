@@ -347,11 +347,24 @@ as_complete_load(struct addrspace *as)
 int
 as_define_stack(struct addrspace *as, vaddr_t *stackptr, char ** argarray, int argc)
 {
-	(void)argarray;
-	(void)argc; 
 	KASSERT(as->as_stackpbase != 0);
 
 	*stackptr = USERSTACK;
+
+	int locarray[argc + 1];
+	locarray[argc]=0; //becuase null terminated
+
+	if (argc> 0){
+		for (int i=0; i< argc; i++){
+			int length = strlen(argarray[i])+1;
+			*stackptr = *stackptr - ROUNDUP(length,4); 
+			copyoutstr(argarray[i], (userptr_t)*stackptr, length, NULL); 
+			locarray[i]=*stackptr; //where string is stored
+		}
+		*stackptr = *stackptr - (argc+1)*sizeof(int); //allocate mem on stack for locarray
+		copyout(locarray, (userptr_t)*stackptr, (argc+1)*(sizeof(int))); //copy entire array
+	}
+
 	return 0;
 }
 
