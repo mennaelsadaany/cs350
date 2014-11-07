@@ -182,22 +182,42 @@ return(0);
 int
 sys_execv(char * progname, char ** args )
 {
-  //copy arguments
-  //open executable, address space and load elf file
-  //copy args from kernel to to userstack
-  //enter process 
+    if( progname == NULL ) {
+        return EFAULT;
+    }
+
+    if( strlen( progname ) > NAME_MAX ) {
+        return E2BIG;
+    }
 
   //get old address space
   struct addrspace *oldaddr;
   oldaddr=curproc_getas(); 
 
-
-
-  (void)args; 
   struct addrspace *as;
   struct vnode *v;
   vaddr_t entrypoint, stackptr;
   int result;
+  int argc=0; 
+
+  //how many args?
+  if (args != NULL){
+    while (args[argc] != NULL){
+      argc++; 
+    }
+  }
+
+  int sizearg=0; 
+  int bytes=0; 
+  if( args != NULL ) {
+      for( int i = 0; i < argc; i++ ) {
+           sizearg = strlen(args[argc])+1; 
+           bytes = ceil(sizearg/4); 
+
+     }
+  }
+
+  
 
   /* Open the file. */
   result = vfs_open(progname, O_RDONLY, 0, &v);
