@@ -180,7 +180,7 @@ return(0);
 }
 
 int
-sys_execv(char * progname, char ** args )
+sys_execv(userptr_t  progname, userptr_t args )
 {
     if( progname == NULL ) {
         return EFAULT;
@@ -192,18 +192,39 @@ sys_execv(char * progname, char ** args )
   struct addrspace *oldaddr;
   oldaddr=curproc_getas(); 
 
+  //copy path name
+  /*
+  char prog[PATH_MAX];
+  copyinstr(progname, prog, strlen((char*)progname)+1, NULL);
+  */
+
+  //how many args?
+  /*
+  if (args != NULL){
+    while (args[argc] != NULL){
+      argc++; 
+    }
+  }
+
+ // char * argarray[argc]; 
+
+//copy args into array 
+  if (args != NULL){
+    for (int i=0; i<argc; i++){
+      int arglen=strlen((char*)args[i])+1; 
+      argarray[i] = kmalloc((arglen) * sizeof(char)); 
+      copyinstr(args[i], argarray[i], arglen, NULL); 
+    }
+  }*/
+
+  ///runprogram 
   struct addrspace *as;
   struct vnode *v;
   vaddr_t entrypoint, stackptr;
   int result;
   int argc=0; 
 
-  //how many args?
-  if (args != NULL){
-    while (args[argc] != NULL){
-      argc++; 
-    }
-  }
+
   /* Open the file. */
   result = vfs_open(progname, O_RDONLY, 0, &v);
   if (result) {
