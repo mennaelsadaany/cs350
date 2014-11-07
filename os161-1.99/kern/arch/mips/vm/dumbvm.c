@@ -359,7 +359,7 @@ as_define_stack(struct addrspace *as, vaddr_t *stackptr, char ** argarray, int a
 		for (int i=0; i< argc; i++){
 			int length = strlen(argarray[i])+1;
 			*stackptr = *stackptr - ROUNDUP(length,4); 
-			copyoutstr(argarray[i], (userptr_t)*stackptr, length, NULL); 
+			copyoutstr(argarray[i], (userptr_t)*stackptr, length, NULL); //kernel to stack 
 			locarray[i]=*stackptr; //where string is stored
 		}
 		*stackptr = *stackptr - (argc+1)*sizeof(int); //allocate mem on stack for locarray

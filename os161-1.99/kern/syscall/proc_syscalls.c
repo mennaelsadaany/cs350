@@ -194,15 +194,21 @@ sys_execv(userptr_t  progname, userptr_t args )
       argc++; 
     }
   }
+  if (argc > MAXNUARGS){
+    return E2BIG;
+  }
 
   char ** argarray= NULL;
-  argarray = kmalloc(argc*(sizeof(char*)));  
+  argarray = kmalloc(argc*(sizeof(char*)));
+  if (argarray == NULL){
+    return ENOMEM; 
+  }  
 
 //copy args into array 
     for (int i=0; i<argc; i++){
       int arglen=strlen((char*)argv[i])+1; 
       argarray[i] = kmalloc((arglen) * sizeof(char)); 
-      copyinstr((const_userptr_t)argv[i], argarray[i], arglen, NULL); 
+      copyinstr((const_userptr_t)argv[i], argarray[i], arglen, NULL); //user space to kernel
     }
 
   ///runprogram 
