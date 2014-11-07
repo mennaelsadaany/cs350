@@ -181,17 +181,19 @@ return(0);
 
 int
 sys_execv(userptr_t  progname, userptr_t args )
-{
+{/*
     if( progname == NULL ) {
         return EFAULT;
     }
     if( strlen( progname ) > NAME_MAX ) {
-        return E2BIG;
-    }
+         return E2BIG;
+    } */
   //get old address space
   struct addrspace *oldaddr;
   oldaddr=curproc_getas(); 
 
+(void)args; 
+(void)progname;
   //copy path name
   /*
   char prog[PATH_MAX];
@@ -222,14 +224,17 @@ sys_execv(userptr_t  progname, userptr_t args )
   struct vnode *v;
   vaddr_t entrypoint, stackptr;
   int result;
-  int argc=0; 
+ // int argc=0; 
 
 
   /* Open the file. */
-  result = vfs_open(progname, O_RDONLY, 0, &v);
+  char * progtemp = kstrdup((char*)progname); 
+  result = vfs_open(progtemp, O_RDONLY, 0, &v);
+  kfree(progtemp); 
   if (result) {
     return result;
   }
+
 
   /* Create a new address space. */
   as = as_create();
