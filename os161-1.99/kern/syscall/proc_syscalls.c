@@ -194,7 +194,7 @@ sys_execv(userptr_t  progname, userptr_t args )
       argc++; 
     }
   }
-  if (argc > MAXNUARGS){
+  if (argc > ARG_MAX){
     return E2BIG;
   }
 
