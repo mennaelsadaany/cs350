@@ -64,7 +64,6 @@ runprogram(char *progname, char** ptr, int nargs)
 	if (result) {
 		return result;
 	}
-
 	/* We should be a new process. */
 	KASSERT(curproc_getas() == NULL);
 
@@ -74,11 +73,9 @@ runprogram(char *progname, char** ptr, int nargs)
 		vfs_close(v);
 		return ENOMEM;
 	}
-
 	/* Switch to it and activate it. */
 	curproc_setas(as);
 	as_activate();
-
 	/* Load the executable. */
 	result = load_elf(v, &entrypoint);
 	if (result) {
@@ -86,7 +83,6 @@ runprogram(char *progname, char** ptr, int nargs)
 		vfs_close(v);
 		return result;
 	}
-
 	/* Done with the file now. */
 	vfs_close(v);
 
@@ -96,11 +92,9 @@ runprogram(char *progname, char** ptr, int nargs)
 		/* p_addrspace will go away when curproc is destroyed */
 		return result;
 	}
-
 	/* Warp to user mode. */
-	enter_new_process(nargs, (userptr_t)ptr,
+	enter_new_process(nargs, (userptr_t)stackptr,
 			  ROUNDUP(stackptr-8, 8), entrypoint);
-	
 	/* enter_new_process does not return. */
 	panic("enter_new_process returned\n");
 	return EINVAL;
