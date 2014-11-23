@@ -221,6 +221,7 @@ as_create(void)
 	if (as==NULL) {
 		return NULL;
 	}
+	as->loadcall= false; 
 
 	as->as_vbase1 = 0;
 	as->as_pbase1 = 0;
@@ -348,13 +349,13 @@ int
 as_complete_load(struct addrspace *as)
 {
 	//changing the flag, we loaded elf
-	as.loadcall = true; 
+	as->loadcall = true; 
 
 	//flush tlb
 	for (i=0; i<NUM_TLB; i++){
 		tlb_write(TLBHI_INVALID(i), TLBLO_INVALID(), i);
 	}
-	
+
 	return 0;
 }
 
