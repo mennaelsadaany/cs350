@@ -207,7 +207,7 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 	 	ehi = faultaddress;
     	elo = paddr | TLBLO_DIRTY | TLBLO_VALID;
 		tlb_random(ehi,elo);
-	kprintf("dumbvm: Replaced a random entry in the TLB \n");
+	//kprintf("dumbvm: Replaced a random entry in the TLB \n");
 	//kprintf("dumbvm: Ran out of TLB entries - cannot handle page fault\n");
 	splx(spl);
 	return 0; 
@@ -347,7 +347,14 @@ as_prepare_load(struct addrspace *as)
 int
 as_complete_load(struct addrspace *as)
 {
-	(void)as;
+	//changing the flag, we loaded elf
+	as.loadcall = true; 
+
+	//flush tlb
+	for (i=0; i<NUM_TLB; i++){
+		tlb_write(TLBHI_INVALID(i), TLBLO_INVALID(), i);
+	}
+	
 	return 0;
 }
 
