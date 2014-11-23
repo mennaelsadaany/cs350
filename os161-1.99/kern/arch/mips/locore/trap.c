@@ -28,6 +28,7 @@
  */
 
 #include <types.h>
+#include <kern/wait.h>
 #include <signal.h>
 #include <lib.h>
 #include <mips/specialreg.h>
@@ -142,9 +143,10 @@ kill_curthread(vaddr_t epc, unsigned code, vaddr_t vaddr)
     }
 
     else {
-        p->exitcode = exitcode;
+
+        p->exitcode = sigterm; //exitcode;
         p->exited = true;
-        pidarray[curproc->pid].exitcode = exitcode;
+        pidarray[curproc->pid].exitcode = sigterm;//exitcode;
         pidarray[curproc->pid].exited = true;
         pidarray[curproc->pid].exitstatus = _MKSIG_EXIT(exitcode); 
         
