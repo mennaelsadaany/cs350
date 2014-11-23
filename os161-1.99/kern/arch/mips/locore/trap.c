@@ -46,6 +46,7 @@
 #include <proc.h>
 #include <thread.h>
  #include <kern/errno.h>
+ #include <signal.h>
 
 
 /* in exception.S */
@@ -144,11 +145,11 @@ kill_curthread(vaddr_t epc, unsigned code, vaddr_t vaddr)
 
     else {
 
-        p->exitcode = sigterm; //exitcode;
+        p->exitcode = SIGTERM; //exitcode;
         p->exited = true;
-        pidarray[curproc->pid].exitcode = sigterm;//exitcode;
+        pidarray[curproc->pid].exitcode = SIGTERM;//exitcode;
         pidarray[curproc->pid].exited = true;
-        pidarray[curproc->pid].exitstatus = _MKSIG_EXIT(exitcode); 
+        pidarray[curproc->pid].exitstatus = _MKSIG_EXIT(SIGTERM); 
         
       for (int i=0; i < PID_MAX; i++){
          if (curproc->pid == pidarray[i].parentpid){
