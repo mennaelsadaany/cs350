@@ -197,7 +197,7 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 		}
 		ehi = faultaddress;
 		if ((vbase1 <= faultaddress) && (faultaddress <= vtop1)){
-			elo &=~TLBLO_DIRTY ;
+			elo = paddr | ~TLBLO_DIRTY | TLBLO_VALID;
 		}
 		else{
 			elo = paddr | TLBLO_DIRTY | TLBLO_VALID;
@@ -211,7 +211,7 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 	//randomly replace an entry 
 	 	ehi = faultaddress;
 	 	if ((vbase1 <= faultaddress) && (faultaddress <= vtop1)){
-			elo &=~TLBLO_DIRTY ;
+			eelo = paddr | ~TLBLO_DIRTY | TLBLO_VALID;
 		}
 		else{
 			elo = paddr | TLBLO_DIRTY | TLBLO_VALID;
@@ -362,11 +362,11 @@ as_complete_load(struct addrspace *as)
 	as->loadcall = true; 
 
 	//flush tlb
-	kprintf("going to flush tlb"); 
+	//kprintf("going to flush tlb"); 
 	for (int i=0; i<NUM_TLB; i++){
 			tlb_write(TLBHI_INVALID(i), TLBLO_INVALID(), i);
 	}
-	kprintf("flushed the tlb");
+	//kprintf("flushed the tlb");
 
 	return 0;
 }
