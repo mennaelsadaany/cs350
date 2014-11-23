@@ -362,10 +362,11 @@ as_complete_load(struct addrspace *as)
 	as->loadcall = true; 
 
 	//flush tlb
+	kprintf("going to flush tlb"); 
 	for (int i=0; i<NUM_TLB; i++){
-
 			tlb_write(TLBHI_INVALID(i), TLBLO_INVALID(), i);
 	}
+	kprintf("flushed the tlb");
 
 	return 0;
 }
