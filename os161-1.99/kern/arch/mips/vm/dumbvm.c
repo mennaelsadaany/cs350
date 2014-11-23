@@ -126,6 +126,7 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 	    case VM_FAULT_READONLY:
 		/* We always create pages read-write, so we can't get this */
 		panic("dumbvm: got VM_FAULT_READONLY\n");
+		//kill the curpoc
 	    case VM_FAULT_READ:
 	    case VM_FAULT_WRITE:
 		break;
@@ -197,11 +198,9 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 			continue;
 		}
 		ehi = faultaddress;
+		elo = paddr | TLBLO_DIRTY | TLBLO_VALID;
 		if ((vbase1 <= faultaddress) && (faultaddress <= vtop1) && loaded){
 			elo &= ~TLBLO_DIRTY;
-		}
-		else{
-			elo = paddr | TLBLO_DIRTY | TLBLO_VALID;
 		}
 		DEBUG(DB_VM, "dumbvm: 0x%x -> 0x%x\n", faultaddress, paddr);
 		tlb_write(ehi, elo, i);
@@ -211,11 +210,9 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 	//couldnt find empty space in tlb
 	//randomly replace an entry 
 	 	ehi = faultaddress;
-	 	if ((vbase1 <= faultaddress) && (faultaddress <= vtop1) && loaded){
-			elo &= ~TLBLO_DIRTY; 
-		}
-		else{
-			elo = paddr | TLBLO_DIRTY | TLBLO_VALID;
+		elo = paddr | TLBLO_DIRTY | TLBLO_VALID;
+		if ((vbase1 <= faultaddress) && (faultaddress <= vtop1) && loaded){
+			elo &= ~TLBLO_DIRTY;
 		}
 		tlb_random(ehi,elo);
 	//kprintf("dumbvm: Replaced a random entry in the TLB \n");
