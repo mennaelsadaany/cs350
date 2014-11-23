@@ -196,7 +196,12 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 			continue;
 		}
 		ehi = faultaddress;
-		elo = paddr | TLBLO_DIRTY | TLBLO_VALID;
+		if (vbase1 <= fault <= vtop1){
+			elo &=~TLBLO_DIRTY ;
+		}
+		else{
+			elo = paddr | TLBLO_DIRTY | TLBLO_VALID;
+		}
 		DEBUG(DB_VM, "dumbvm: 0x%x -> 0x%x\n", faultaddress, paddr);
 		tlb_write(ehi, elo, i);
 		splx(spl);
@@ -205,7 +210,12 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 	//couldnt find empty space in tlb
 	//randomly replace an entry 
 	 	ehi = faultaddress;
-    	elo = paddr | TLBLO_DIRTY | TLBLO_VALID;
+	 			if (vbase1 <= fault <= vtop1){
+			elo &=~TLBLO_DIRTY ;
+		}
+		else{
+			elo = paddr | TLBLO_DIRTY | TLBLO_VALID;
+		}
 		tlb_random(ehi,elo);
 	//kprintf("dumbvm: Replaced a random entry in the TLB \n");
 	//kprintf("dumbvm: Ran out of TLB entries - cannot handle page fault\n");
@@ -353,7 +363,8 @@ as_complete_load(struct addrspace *as)
 
 	//flush tlb
 	for (int i=0; i<NUM_TLB; i++){
-		tlb_write(TLBHI_INVALID(i), TLBLO_INVALID(), i);
+
+			tlb_write(TLBHI_INVALID(i), TLBLO_INVALID(), i);
 	}
 
 	return 0;
