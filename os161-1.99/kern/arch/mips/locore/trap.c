@@ -49,6 +49,9 @@
 
 /* in exception.S */
 extern void asm_usermode(struct trapframe *tf);
+extern struct mypid pidarray[PID_MAX]; 
+extern struct lock *glock; 
+extern struct cv *globalcv; 
 
 /* called only from assembler, so not declared in a header */
 void mips_trap(struct trapframe *tf);
