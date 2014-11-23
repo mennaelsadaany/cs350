@@ -211,7 +211,7 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 	//randomly replace an entry 
 	 	ehi = faultaddress;
 	 	if ((vbase1 <= faultaddress) && (faultaddress <= vtop1)){
-			eelo = paddr | ~TLBLO_DIRTY | TLBLO_VALID;
+			elo = paddr | ~TLBLO_DIRTY | TLBLO_VALID;
 		}
 		else{
 			elo = paddr | TLBLO_DIRTY | TLBLO_VALID;
