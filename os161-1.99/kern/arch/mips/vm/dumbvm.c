@@ -352,7 +352,7 @@ as_complete_load(struct addrspace *as)
 	as->loadcall = true; 
 
 	//flush tlb
-	for (i=0; i<NUM_TLB; i++){
+	for (int i=0; i<NUM_TLB; i++){
 		tlb_write(TLBHI_INVALID(i), TLBLO_INVALID(), i);
 	}
 
