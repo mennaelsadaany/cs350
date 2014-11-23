@@ -196,7 +196,7 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 			continue;
 		}
 		ehi = faultaddress;
-		if (vbase1 <= faultaddress <= vtop1){
+		if ((vbase1 <= faultaddress) && (faultaddress <= vtop1)){
 			elo &=~TLBLO_DIRTY ;
 		}
 		else{
@@ -210,7 +210,7 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 	//couldnt find empty space in tlb
 	//randomly replace an entry 
 	 	ehi = faultaddress;
-	 	if (vbase1 <= faultaddress <= vtop1){
+	 	if ((vbase1 <= faultaddress) && (faultaddress <= vtop1)){
 			elo &=~TLBLO_DIRTY ;
 		}
 		else{
