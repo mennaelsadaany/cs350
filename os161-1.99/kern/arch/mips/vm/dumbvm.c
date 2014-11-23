@@ -53,6 +53,7 @@
  * Wrap rma_stealmem in a spinlock.
  */
 static struct spinlock stealmem_lock = SPINLOCK_INITIALIZER;
+bool loaded = false; 
 
 void
 vm_bootstrap(void)
@@ -196,7 +197,7 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 			continue;
 		}
 		ehi = faultaddress;
-		if ((vbase1 <= faultaddress) && (faultaddress <= vtop1)){
+		if ((vbase1 <= faultaddress) && (faultaddress <= vtop1) && loaded){
 			elo = paddr | ~TLBLO_DIRTY | TLBLO_VALID;
 		}
 		else{
@@ -210,7 +211,7 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 	//couldnt find empty space in tlb
 	//randomly replace an entry 
 	 	ehi = faultaddress;
-	 	if ((vbase1 <= faultaddress) && (faultaddress <= vtop1)){
+	 	if ((vbase1 <= faultaddress) && (faultaddress <= vtop1) && loaded){
 			elo = paddr | ~TLBLO_DIRTY | TLBLO_VALID;
 		}
 		else{
@@ -360,6 +361,7 @@ as_complete_load(struct addrspace *as)
 {
 	//changing the flag, we loaded elf
 	as->loadcall = true; 
+	loaded=true; 
 
 	//flush tlb
 	//kprintf("going to flush tlb"); 
