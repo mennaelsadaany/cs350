@@ -189,7 +189,7 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 
 	/* Disable interrupts on this CPU while frobbing the TLB. */
 	spl = splhigh();
-
+	//go through tlb to look for an empty location 
 	for (i=0; i<NUM_TLB; i++) {
 		tlb_read(&ehi, &elo, i);
 		if (elo & TLBLO_VALID) {
@@ -202,10 +202,16 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 		splx(spl);
 		return 0;
 	}
-
-	kprintf("dumbvm: Ran out of TLB entries - cannot handle page fault\n");
+	//couldnt find empty space in tlb
+	//randomly replace an entry 
+	 	ehi = faultaddress;
+    	elo = paddr | TLBLO_DIRTY | TLBLO_VALID;
+		tlb_random(ehi,elo);
+	kprintf("dumbvm: Replaced a random entry in the TLB \n");
+	//kprintf("dumbvm: Ran out of TLB entries - cannot handle page fault\n");
 	splx(spl);
-	return EFAULT;
+	return 0; 
+	//return EFAULT;
 }
 
 struct addrspace *
