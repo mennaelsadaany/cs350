@@ -149,7 +149,7 @@ kill_curthread(vaddr_t epc, unsigned code, vaddr_t vaddr)
         p->exited = true;
         pidarray[curproc->pid].exitcode = SIGTERM;//exitcode;
         pidarray[curproc->pid].exited = true;
-        pidarray[curproc->pid].exitstatus = _MKSIG_EXIT(SIGTERM); 
+        pidarray[curproc->pid].exitstatus = _MKWAIT_SIG(SIGTERM); 
         
       for (int i=0; i < PID_MAX; i++){
          if (curproc->pid == pidarray[i].parentpid){
@@ -165,7 +165,7 @@ kill_curthread(vaddr_t epc, unsigned code, vaddr_t vaddr)
   //(void)exitcode; 
 //end of my tings duno more yolo
 
-  DEBUG(DB_SYSCALL,"Syscall: _exit(%d)\n",exitcode);
+  DEBUG(DB_SYSCALL,"Syscall: _exit(%d)\n",SIGTERM);
 
   KASSERT(curproc->p_addrspace != NULL);
   as_deactivate();
