@@ -97,10 +97,35 @@ kill_curthread(vaddr_t epc, unsigned code, vaddr_t vaddr)
 		sig = SIGABRT;
 		break;
 	    case EX_MOD:
+	    case EX_TLBL:
+	    case EX_TLBS:
+		sig = SIGSEGV;
+		break;
+	    case EX_ADEL:
+	    case EX_ADES:
+		sig = SIGBUS;
+		break;
+	    case EX_BP:
+		sig = SIGTRAP;
+		break;
+	    case EX_RI:
+		sig = SIGILL;
+		break;
+	    case EX_CPU:
+		sig = SIGSEGV;
+		break;
+	    case EX_OVF:
+		sig = SIGFPE;
+		break;
+	}
+
+	/*
+	 * You will probably want to change this.
+	 */
 
 	 ///sys_exit2
 
-  struct addrspace *as;
+	struct addrspace *as;
   struct proc *p = curproc;
   /* for now, just include this to keep the compiler from complaining about
      an unused variable */
@@ -165,35 +190,9 @@ kill_curthread(vaddr_t epc, unsigned code, vaddr_t vaddr)
   thread_exit();
   /* thread_exit() does not return, so we should never get here */
   panic("return from thread_exit in sys_exit\n"); 
-break; 
+
 ///end of sys_exit 
-
-	    case EX_TLBL:
-	    case EX_TLBS:
-		sig = SIGSEGV;
-		break;
-	    case EX_ADEL:
-	    case EX_ADES:
-		sig = SIGBUS;
-		break;
-	    case EX_BP:
-		sig = SIGTRAP;
-		break;
-	    case EX_RI:
-		sig = SIGILL;
-		break;
-	    case EX_CPU:
-		sig = SIGSEGV;
-		break;
-	    case EX_OVF:
-		sig = SIGFPE;
-		break;
-	}
-
-	/*
-	 * You will probably want to change this.
-	 */
-
+  
 	kprintf("Fatal user mode trap %u sig %d (%s, epc 0x%x, vaddr 0x%x)\n",
 		code, sig, trapcodenames[code], epc, vaddr);
 	panic("I don't know how to handle this\n");
