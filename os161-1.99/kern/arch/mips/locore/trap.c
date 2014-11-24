@@ -100,7 +100,7 @@ kill_curthread(vaddr_t epc, unsigned code, vaddr_t vaddr)
 
 	 ///sys_exit2
 
-	   struct addrspace *as;
+  struct addrspace *as;
   struct proc *p = curproc;
   /* for now, just include this to keep the compiler from complaining about
      an unused variable */
@@ -165,9 +165,9 @@ kill_curthread(vaddr_t epc, unsigned code, vaddr_t vaddr)
   thread_exit();
   /* thread_exit() does not return, so we should never get here */
   panic("return from thread_exit in sys_exit\n"); 
-
+break; 
 ///end of sys_exit 
-  
+
 	    case EX_TLBL:
 	    case EX_TLBS:
 		sig = SIGSEGV;
