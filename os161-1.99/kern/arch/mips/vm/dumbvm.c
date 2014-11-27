@@ -51,7 +51,7 @@
 
 
 int *coremap; 
-paddr_t first; 
+static paddr_t first; 
 unsigned int coresize; 
 
 bool vmboot; 
@@ -84,9 +84,8 @@ vm_bootstrap(void)
 
 	coremap[0]=coresize; 
 
-	spinlock_release(&stealmem_lock);
-
 vmboot=true; 
+	spinlock_release(&stealmem_lock);
 
 }
 
