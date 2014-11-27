@@ -55,7 +55,7 @@
     vaddr_t va;
 
     //page state 
-    page_state_t state;
+    int state;
 
 
     /* other info for paging algorithm  */
