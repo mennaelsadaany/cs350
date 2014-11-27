@@ -63,7 +63,7 @@ bool loaded = false;
 void
 vm_bootstrap(void)
 {
-	/*
+	
 	//initialize coremap 
 	paddr_t first; 
 	paddr_t last; 
@@ -76,6 +76,7 @@ vm_bootstrap(void)
 	int pagesleft  = ROUNDUP(memory, PAGE_SIZE)/PAGE_SIZE; 
 
 	coresize = ROUNDUP((sizeof(int)) * pagesleft, PAGE_SIZE)/PAGE_SIZE; 
+	kprintf(coresize); 
 	coremap = (int*)PADDR_TO_KVADDR(first);
 
 	for (int i=0; i< pagesleft; i++){
@@ -84,7 +85,7 @@ vm_bootstrap(void)
 
 	coremap[0]=coresize; 
 
-vmboot=true; */
+vmboot=true; 
 
 }
 
