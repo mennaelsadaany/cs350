@@ -65,6 +65,7 @@ bool loaded = false;
 void
 vm_bootstrap(void)
 {
+	(void)first; 
 	//initialize coremap 
 	/*
 	paddr_t last; 
