@@ -73,7 +73,7 @@ vm_bootstrap(void)
 	//putspinlock
 	int coresize;
 	paddr_t memory = last - first; 
-	int pagesleft  = ROUNDUP(memory, PAGE_SIZE)/PAGE_SIZE; 
+	int pagesleft  = memory/PAGE_SIZE; 
 
 	coresize = ROUNDUP((sizeof(int)) * pagesleft, PAGE_SIZE)/PAGE_SIZE; 
 	kprintf("%d",(int)pagesleft); 
