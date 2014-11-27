@@ -70,7 +70,9 @@ vm_bootstrap(void)
 	
 	paddr_t last; 
 
-	ram_getsize(&first, &last); 
+	// ram_getsize(&first, &last); 
+
+	last = first = 0;
 
 	unsigned int pagesleft = (last - first)/PAGE_SIZE; 
 	coremap = (int*)PADDR_TO_KVADDR(first);
