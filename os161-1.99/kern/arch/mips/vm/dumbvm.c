@@ -50,7 +50,8 @@
 #define DUMBVM_STACKPAGES    12
 
 
-int* coremap; 
+int *coremap; 
+paddr_t first; 
 
 bool vmboot; 
 
@@ -63,9 +64,7 @@ bool loaded = false;
 void
 vm_bootstrap(void)
 {
-	
 	//initialize coremap 
-	paddr_t first; 
 	paddr_t last; 
 
 	ram_getsize(&first, &last); 
