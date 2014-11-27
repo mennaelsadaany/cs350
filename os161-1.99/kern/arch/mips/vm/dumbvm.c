@@ -66,7 +66,6 @@ void
 vm_bootstrap(void)
 {
 	//initialize coremap 
-	spinlock_acquire(&stealmem_lock);
 	paddr_t last; 
 
 	ram_getsize(&first, &last); 
@@ -85,7 +84,7 @@ vm_bootstrap(void)
 	coremap[0]=coresize; 
 
 vmboot=true; 
-	spinlock_release(&stealmem_lock);
+
 
 }
 
@@ -93,14 +92,15 @@ static
 paddr_t
 getppages(unsigned long npages)
 {
-	spinlock_acquire(&stealmem_lock);
 	paddr_t addr;
-	addr=0; 
+	spinlock_acquire(&stealmem_lock);
 
-	if (!vmboot){
+//	addr=0; 
+
+//	if (!vmboot){
 		addr = ram_stealmem(npages);
-	}
-
+//	}
+/*
 	else{
 		unsigned int i=0; 
 		//look for consecutive free pages
@@ -127,7 +127,7 @@ getppages(unsigned long npages)
 				}
 			}
 		}
-	}
+	}*/
 
 	spinlock_release(&stealmem_lock);
 	return addr;
@@ -149,13 +149,14 @@ void
 free_kpages(vaddr_t addr)
 {
 	/* nothing - leak the memory. */
-
+/*
 	spinlock_acquire(&stealmem_lock);
 
 	int pageindex = (addr-(vaddr_t)coremap)/PAGE_SIZE;
 	coremap[pageindex]=0;  
 
-	spinlock_release(&stealmem_lock);
+	spinlock_release(&stealmem_lock);*/
+	(void)addr; 
 
 }
 
