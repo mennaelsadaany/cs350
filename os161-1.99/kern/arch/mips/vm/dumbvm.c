@@ -66,6 +66,7 @@ void
 vm_bootstrap(void)
 {
 	//initialize coremap 
+	/*
 	paddr_t last; 
 
 	ram_getsize(&first, &last); 
@@ -83,7 +84,7 @@ vm_bootstrap(void)
 
 	coremap[0]=coresize; 
 
-vmboot=true; 
+vmboot=true; */
 
 
 }
