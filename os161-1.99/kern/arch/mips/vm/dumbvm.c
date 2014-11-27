@@ -52,7 +52,7 @@
 
 int *coremap; 
 paddr_t first; 
-int coresize; 
+unsigned int coresize; 
 
 bool vmboot; 
 
