@@ -50,7 +50,7 @@
 #define DUMBVM_STACKPAGES    12
 
 
-int *coremap; 
+int * coremap; 
 static paddr_t first; 
 unsigned int coresize; 
 
@@ -67,25 +67,24 @@ vm_bootstrap(void)
 {
 	(void)first; 
 	//initialize coremap 
-	/*
+	
 	paddr_t last; 
 
 	ram_getsize(&first, &last); 
 
-	paddr_t memory = last - first; 
-	int pagesleft  = memory/PAGE_SIZE; 
-
-	coresize = ROUNDUP((sizeof(int)) * pagesleft, PAGE_SIZE)/PAGE_SIZE; 
-	//kprintf("%d",(int)pagesleft); 
+	int pagesleft = (last - first)/PAGE_SIZE; 
 	coremap = (int*)PADDR_TO_KVADDR(first);
+	coresize = ROUNDUP(pagesleft * sizeof(int), PAGE_SIZE)/PAGE_SIZE;
 
 	for (int i=0; i< pagesleft; i++){
-		coremap[i]=0; 
+		if (i < coresize) {
+			coremap[i] = 1; 
+		} else {
+			coremap[i] = 0; 
+		}
 	}
 
-	coremap[0]=coresize; 
-
-vmboot=true; */
+	vmboot=true; 
 
 
 }
