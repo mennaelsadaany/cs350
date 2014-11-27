@@ -103,7 +103,7 @@ getppages(unsigned long npages)
 	}
 
 	else{
-		int i=0; 
+		unsigned int i=0; 
 		//look for consecutive free pages
 		while(i< coresize){
 			if (coremap[i] !=0){
@@ -115,7 +115,7 @@ getppages(unsigned long npages)
 				}
 				bool isfound; 
 				isfound=true; 
-				for(int l=0; l<=npages; l++){
+				for(unsigned int l=0; l<=npages; l++){
 					if (coremap[i+l]!=0){
 						isfound=false; 
 						i=i+l; 
