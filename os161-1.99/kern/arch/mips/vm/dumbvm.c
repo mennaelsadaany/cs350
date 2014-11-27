@@ -76,7 +76,7 @@ vm_bootstrap(void)
 	int pagesleft  = ROUNDUP(memory, PAGE_SIZE)/PAGE_SIZE; 
 
 	coresize = ROUNDUP((sizeof(int)) * pagesleft, PAGE_SIZE)/PAGE_SIZE; 
-	kprintf(coresize); 
+	kprintf("%d",(int)coresize); 
 	coremap = (int*)PADDR_TO_KVADDR(first);
 
 	for (int i=0; i< pagesleft; i++){
