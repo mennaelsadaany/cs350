@@ -49,6 +49,20 @@
 /* under dumbvm, always have 48k of user stack */
 #define DUMBVM_STACKPAGES    12
 
+ struct coremap_entry { 
+    //address the page is mapped to 
+    struct addrspace* as; 
+    vaddr_t va;
+
+    //page state 
+    page_state_t state;
+
+
+    /* other info for paging algorithm  */
+};
+
+vmboot=false; 
+
 /*
  * Wrap rma_stealmem in a spinlock.
  */
@@ -58,7 +72,17 @@ bool loaded = false;
 void
 vm_bootstrap(void)
 {
-	/* Do nothing. */
+	//initialize coremap 
+	paddr_t first; 
+	paddr_t last; 
+
+	ram_getsize(&first, &last); 
+	
+	paddr_t memory = last - first; 
+	int pagesleft  = ROUNDUP(memory, PAGE_SIZE) /PAGE_SIZE; 
+
+vmboot=true; 
+
 }
 
 static
