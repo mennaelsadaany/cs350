@@ -72,7 +72,7 @@ vm_bootstrap(void)
 
 	ram_getsize(&first, &last); 
 
-	int pagesleft = (last - first)/PAGE_SIZE; 
+	unsigned int pagesleft = (last - first)/PAGE_SIZE; 
 	coremap = (int*)PADDR_TO_KVADDR(first);
 	coresize = ROUNDUP(pagesleft * sizeof(int), PAGE_SIZE)/PAGE_SIZE;
 
