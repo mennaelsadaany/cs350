@@ -96,11 +96,11 @@ getppages(unsigned long npages)
 	paddr_t addr;
 	spinlock_acquire(&stealmem_lock);
 
-//	addr=0; 
+	addr=0; 
 
-//	if (!vmboot){
+	if (!vmboot){
 		addr = ram_stealmem(npages);
-//	}
+	}
 
 	else{
 		unsigned int i=0; 
