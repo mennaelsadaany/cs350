@@ -63,6 +63,7 @@ bool loaded = false;
 void
 vm_bootstrap(void)
 {
+	/*
 	//initialize coremap 
 	paddr_t first; 
 	paddr_t last; 
@@ -83,7 +84,7 @@ vm_bootstrap(void)
 
 	coremap[0]=coresize; 
 
-vmboot=true; 
+vmboot=true; */
 
 }
 
