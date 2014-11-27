@@ -52,6 +52,7 @@
 
 int *coremap; 
 paddr_t first; 
+int coresize; 
 
 bool vmboot; 
 
@@ -65,17 +66,16 @@ void
 vm_bootstrap(void)
 {
 	//initialize coremap 
+	spinlock_acquire(&stealmem_lock);
 	paddr_t last; 
 
 	ram_getsize(&first, &last); 
 
-	//putspinlock
-	int coresize;
 	paddr_t memory = last - first; 
 	int pagesleft  = memory/PAGE_SIZE; 
 
 	coresize = ROUNDUP((sizeof(int)) * pagesleft, PAGE_SIZE)/PAGE_SIZE; 
-	kprintf("%d",(int)pagesleft); 
+	//kprintf("%d",(int)pagesleft); 
 	coremap = (int*)PADDR_TO_KVADDR(first);
 
 	for (int i=0; i< pagesleft; i++){
@@ -83,6 +83,8 @@ vm_bootstrap(void)
 	}
 
 	coremap[0]=coresize; 
+
+	spinlock_release(&stealmem_lock);
 
 vmboot=true; 
 
@@ -92,12 +94,42 @@ static
 paddr_t
 getppages(unsigned long npages)
 {
-	paddr_t addr;
-
 	spinlock_acquire(&stealmem_lock);
+	paddr_t addr;
+	addr=0; 
 
-	addr = ram_stealmem(npages);
-	
+	if (!vmboot){
+		addr = ram_stealmem(npages);
+	}
+
+	else{
+		int i=0; 
+		//look for consecutive free pages
+		while(i< coresize){
+			if (coremap[i] !=0){
+				i += coremap[i]; 
+			}
+			else {
+				if(npages+i > coresize){ //checking theres space to allocate at end 
+					break; 
+				}
+				bool isfound; 
+				isfound=true; 
+				for(int l=0; l<=npages; l++){
+					if (coremap[i+l]!=0){
+						isfound=false; 
+						i=i+l; 
+						break; 
+					}
+				}
+				if(isfound){
+					coremap[i]=npages; 
+					addr=first+(i*PAGE_SIZE); 
+				}
+			}
+		}
+	}
+
 	spinlock_release(&stealmem_lock);
 	return addr;
 }
@@ -119,7 +151,13 @@ free_kpages(vaddr_t addr)
 {
 	/* nothing - leak the memory. */
 
-	(void)addr;
+	spinlock_acquire(&stealmem_lock);
+
+	int pageindex = (addr-(vaddr_t)coremap)/PAGE_SIZE;
+	coremap[pageindex]=0;  
+
+	spinlock_release(&stealmem_lock);
+
 }
 
 void
