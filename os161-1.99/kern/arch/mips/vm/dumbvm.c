@@ -76,7 +76,7 @@ vm_bootstrap(void)
 	coremap = (int*)PADDR_TO_KVADDR(first);
 	coresize = ROUNDUP(pagesleft * sizeof(int), PAGE_SIZE)/PAGE_SIZE;
 
-	for (int i=0; i< pagesleft; i++){
+	for (unsigned int i=0; i< pagesleft; i++){
 		if (i < coresize) {
 			coremap[i] = 1; 
 		} else {
