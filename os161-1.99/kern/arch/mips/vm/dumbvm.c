@@ -73,13 +73,13 @@ vm_bootstrap(void)
 	
 	paddr_t memory = last - first; 
 	int pagesleft  = ROUNDUP(memory, PAGE_SIZE)/PAGE_SIZE; 
-	coresize = ROUNDUP((sizeof int) * pagesleft, PAGE_SIZE)/PAGE_SIZE; 
+	int coresize = ROUNDUP((sizeof int) * pagesleft, PAGE_SIZE)/PAGE_SIZE; 
 	coremap = (int*)PADDR_TO_KVADDR(first);
 
 	for (int i=0; i< pagesleft; i++){
 		coremap[i]=0; 
 	}
-	
+
 	coremap[0]=coresize; 
 
 vmboot=true; 
