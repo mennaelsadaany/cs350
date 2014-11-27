@@ -61,7 +61,7 @@
     /* other info for paging algorithm  */
 };
 
-vmboot=false; 
+bool vmboot; 
 
 /*
  * Wrap rma_stealmem in a spinlock.
@@ -80,6 +80,7 @@ vm_bootstrap(void)
 	
 	paddr_t memory = last - first; 
 	int pagesleft  = ROUNDUP(memory, PAGE_SIZE) /PAGE_SIZE; 
+	(void)pagesleft; 
 
 vmboot=true; 
 
