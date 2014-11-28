@@ -261,7 +261,7 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 		}
 		ehi = faultaddress;
 		elo = paddr | TLBLO_DIRTY | TLBLO_VALID;
-		if (isText && loaded){
+		if (isText && as->loaded){
 			elo &= ~TLBLO_DIRTY;
 		}
 		DEBUG(DB_VM, "dumbvm: 0x%x -> 0x%x\n", faultaddress, paddr);
@@ -273,7 +273,7 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 	//randomly replace an entry 
 	 	ehi = faultaddress;
 		elo = paddr | TLBLO_DIRTY | TLBLO_VALID;
-		if (isText && loaded){
+		if (isText && as->loaded){
 			elo &= ~TLBLO_DIRTY;
 		}
 		tlb_random(ehi,elo);
