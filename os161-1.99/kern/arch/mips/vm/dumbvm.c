@@ -146,14 +146,14 @@ alloc_kpages(int npages)
 void 
 free_kpages(vaddr_t addr)
 {
-	for (unsigned int i = 0; i < num_pages; i++) {
-		if (PADDR_TO_KVADDR(first + i * PAGE_SIZE) == addr) {
-			for (int j = 0; j < coremap[i]; j++) {
-				coremap[i+j] = 0;
-			}
-		}
-	}
-
+	// for (unsigned int i = 0; i < num_pages; i++) {
+	// 	if (PADDR_TO_KVADDR(first + i * PAGE_SIZE) == addr) {
+	// 		for (int j = 0; j < coremap[i]; j++) {
+	// 			coremap[i+j] = 0;
+	// 		}
+	// 	}
+	// }
+	(void) addr;
 }
 
 void
