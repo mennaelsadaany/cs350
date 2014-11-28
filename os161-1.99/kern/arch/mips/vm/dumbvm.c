@@ -72,10 +72,11 @@ vm_bootstrap(void)
 
 	num_pages = (last - first)/PAGE_SIZE; 
 	coremap = (int*)PADDR_TO_KVADDR(first);
-	unsigned int coresize = ROUNDUP(pagesleft * sizeof(int), PAGE_SIZE)/PAGE_SIZE;
+
+	unsigned int coresize = ROUNDUP(num_pages * sizeof(int), PAGE_SIZE)/PAGE_SIZE;
 
 
-	for (unsigned int i=0; i< pagesleft; i++){
+	for (unsigned int i=0; i< num_pages; i++){
 		if (i < coresize) {
 			coremap[i] = 1; 
 		} else {
@@ -92,7 +93,7 @@ getppages(unsigned long npages)
 
 	addr=0; 
 
-	if (coremap == NUL){
+	if (coremap == NULL){
 		spinlock_acquire(&stealmem_lock);
 		addr = ram_stealmem(npages);
 		spinlock_release(&stealmem_lock);
@@ -116,10 +117,10 @@ getppages(unsigned long npages)
 				}
 				if (isfound) {
 					coremap[i] = npages;
-					for (j = 1; j < npages; j++) {
+					for (unsigned int j = 1; j < npages; j++) {
 						coremap[i+j] = -1;
 					}
-					return start + i * PAGE_SIZE;
+					return first + i * PAGE_SIZE;
 				}
 				i++;
 			}
@@ -144,8 +145,8 @@ alloc_kpages(int npages)
 void 
 free_kpages(vaddr_t addr)
 {
-	for (int i = 0; i < num_pages; i++) {
-		if (start + i * PAGE_SIZE == addr) {
+	for (unsigned int i = 0; i < num_pages; i++) {
+		if (first + i * PAGE_SIZE == addr) {
 			for (int j = 0; j < coremap[i]; j++) {
 				coremap[i+j] = 0;
 			}
