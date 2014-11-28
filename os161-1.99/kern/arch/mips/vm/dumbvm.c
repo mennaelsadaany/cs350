@@ -93,40 +93,40 @@ getppages(unsigned long npages)
 
 	addr=0; 
 
-	if (coremap == NULL){
+	// if (coremap == NULL){
 		spinlock_acquire(&stealmem_lock);
 		addr = ram_stealmem(npages);
 		spinlock_release(&stealmem_lock);
 		return addr;
-	} 
-	else {
-		unsigned int i=0; 
-		//look for consecutive free pages
-		while(i < num_pages){
-			if (coremap[i] !=0){
-				i++; 
-			}
-			else {
-				bool isfound = true; 
-				for (unsigned int j = 0; j < npages; j++) {
-					if (i + j >= num_pages) return 0;
-					if (coremap[i+j] != 0) {
-						i+=j;
-						isfound = false;
-						break;
-					}
-				}
-				if (isfound) {
-					coremap[i] = npages;
-					for (unsigned int j = 1; j < npages; j++) {
-						coremap[i+j] = -1;
-					}
-					return first + i * PAGE_SIZE;
-				}
-				i++;
-			}
-		}
-	}
+	// } 
+	// else {
+	// 	unsigned int i=0; 
+	// 	//look for consecutive free pages
+	// 	while(i < num_pages){
+	// 		if (coremap[i] !=0){
+	// 			i++; 
+	// 		}
+	// 		else {
+	// 			bool isfound = true; 
+	// 			for (unsigned int j = 0; j < npages; j++) {
+	// 				if (i + j >= num_pages) return 0;
+	// 				if (coremap[i+j] != 0) {
+	// 					i+=j;
+	// 					isfound = false;
+	// 					break;
+	// 				}
+	// 			}
+	// 			if (isfound) {
+	// 				coremap[i] = npages;
+	// 				for (unsigned int j = 1; j < npages; j++) {
+	// 					coremap[i+j] = -1;
+	// 				}
+	// 				return first + i * PAGE_SIZE;
+	// 			}
+	// 			i++;
+	// 		}
+	// 	}
+	// }
 
 	return 0;
 }
