@@ -58,30 +58,29 @@ unsigned int num_pages;
  * Wrap rma_stealmem in a spinlock.
  */
 static struct spinlock stealmem_lock = SPINLOCK_INITIALIZER;
-bool loaded = false; 
 
 void
 vm_bootstrap(void)
 {
 	//initialize coremap 
 	
-	// paddr_t last; 
+	paddr_t last; 
 
-	//ram_getsize(&first, &last); 
+	ram_getsize(&first, &last); 
 
-	// num_pages = (last - first)/PAGE_SIZE; 
-	// coremap = (int*)PADDR_TO_KVADDR(first);
+	num_pages = (last - first)/PAGE_SIZE; 
+	coremap = (int*)PADDR_TO_KVADDR(first);
 
-	// unsigned int coresize = ROUNDUP(num_pages * sizeof(int), PAGE_SIZE)/PAGE_SIZE;
+	unsigned int coresize = ROUNDUP(num_pages * sizeof(int), PAGE_SIZE)/PAGE_SIZE;
 
 
-	// for (unsigned int i=0; i< num_pages; i++){
-	// 	if (i < coresize) {
-	// 		coremap[i] = 1; 
-	// 	} else {
-	// 		coremap[i] = 0; 
-	// 	}
-	// }
+	for (unsigned int i=0; i< num_pages; i++){
+		if (i < coresize) {
+			coremap[i] = 1; 
+		} else {
+			coremap[i] = 0; 
+		}
+	}
 }
 
 static
@@ -92,42 +91,42 @@ getppages(unsigned long npages)
 
 	addr=0; 
 
-	// if (coremap == NULL){
+	if (coremap == NULL){
 		spinlock_acquire(&stealmem_lock);
 		addr = ram_stealmem(npages);
 		spinlock_release(&stealmem_lock);
 		return addr;
-	// } 
-	// else {
-	// 	unsigned int i=0; 
-	// 	//look for consecutive free pages
-	// 	while(i < num_pages){
-	// 		if (coremap[i] !=0){
-	// 			i++; 
-	// 		}
-	// 		else {
-	// 			bool isfound = true; 
-	// 			for (unsigned int j = 0; j < npages; j++) {
-	// 				if (i + j >= num_pages) return 0;
-	// 				if (coremap[i+j] != 0) {
-	// 					i+=j;
-	// 					isfound = false;
-	// 					break;
-	// 				}
-	// 			}
-	// 			if (isfound) {
-	// 				coremap[i] = npages;
-	// 				for (unsigned int j = 1; j < npages; j++) {
-	// 					coremap[i+j] = -1;
-	// 				}
-	// 				return first + i * PAGE_SIZE;
-	// 			}
-	// 			i++;
-	// 		}
-	// 	}
-	// }
+	} 
+	else {
+		unsigned int i=0; 
+		//look for consecutive free pages
+		while(i < num_pages){
+			if (coremap[i] !=0){
+				i++; 
+			}
+			else {
+				bool isfound = true; 
+				for (unsigned int j = 0; j < npages; j++) {
+					if (i + j >= num_pages) return 0;
+					if (coremap[i+j] != 0) {
+						i+=j;
+						isfound = false;
+						break;
+					}
+				}
+				if (isfound) {
+					coremap[i] = npages;
+					for (unsigned int j = 1; j < npages; j++) {
+						coremap[i+j] = -1;
+					}
+					return first + i * PAGE_SIZE;
+				}
+				i++;
+			}
+		}
+	}
 
-	// return 0;
+	return 0;
 }
 
 /* Allocate/free some kernel-space virtual pages */
@@ -145,14 +144,13 @@ alloc_kpages(int npages)
 void 
 free_kpages(vaddr_t addr)
 {
-	// for (unsigned int i = 0; i < num_pages; i++) {
-	// 	if (PADDR_TO_KVADDR(first + i * PAGE_SIZE) == addr) {
-	// 		for (int j = 0; j < coremap[i]; j++) {
-	// 			coremap[i+j] = 0;
-	// 		}
-	// 	}
-	// }
-	(void) addr;
+	for (unsigned int i = 0; i < num_pages; i++) {
+		if (PADDR_TO_KVADDR(first + i * PAGE_SIZE) == addr) {
+			for (int j = 0; j < coremap[i]; j++) {
+				coremap[i+j] = 0;
+			}
+		}
+	}
 }
 
 void
@@ -293,7 +291,7 @@ as_create(void)
 	if (as==NULL) {
 		return NULL;
 	}
-	as->loadcall= false; 
+	as->loaded= false; 
 
 	as->as_vbase1 = 0;
 	as->as_pbase1 = 0;
@@ -421,14 +419,13 @@ int
 as_complete_load(struct addrspace *as)
 {
 	//changing the flag, we loaded elf
-	as->loadcall = true; 
-	loaded=true; 
+	as->loaded=true; 
 
 	//flush tlb
 	//kprintf("going to flush tlb"); 
-	for (int i=0; i<NUM_TLB; i++){
-			tlb_write(TLBHI_INVALID(i), TLBLO_INVALID(), i);
-	}
+	// for (int i=0; i<NUM_TLB; i++){
+	// 		tlb_write(TLBHI_INVALID(i), TLBLO_INVALID(), i);
+	// }
 	//kprintf("flushed the tlb");
 
 	return 0;
