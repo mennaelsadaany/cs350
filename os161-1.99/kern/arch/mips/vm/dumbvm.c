@@ -51,10 +51,8 @@
 
 
 int * coremap; 
-static paddr_t first; 
-unsigned int coresize; 
-
-bool vmboot; 
+static paddr_t first;  
+unsigned int num_pages;
 
 /*
  * Wrap rma_stealmem in a spinlock.
@@ -72,9 +70,10 @@ vm_bootstrap(void)
 
 	ram_getsize(&first, &last); 
 
-	unsigned int pagesleft = (last - first)/PAGE_SIZE; 
+	num_pages = (last - first)/PAGE_SIZE; 
 	coremap = (int*)PADDR_TO_KVADDR(first);
-	coresize = ROUNDUP(pagesleft * sizeof(int), PAGE_SIZE)/PAGE_SIZE;
+	unsigned int coresize = ROUNDUP(pagesleft * sizeof(int), PAGE_SIZE)/PAGE_SIZE;
+
 
 	for (unsigned int i=0; i< pagesleft; i++){
 		if (i < coresize) {
@@ -83,10 +82,6 @@ vm_bootstrap(void)
 			coremap[i] = 0; 
 		}
 	}
-
-	vmboot=true; 
-
-
 }
 
 static
@@ -94,44 +89,44 @@ paddr_t
 getppages(unsigned long npages)
 {
 	paddr_t addr;
-	spinlock_acquire(&stealmem_lock);
 
 	addr=0; 
 
-	if (!vmboot){
+	if (coremap == NUL){
+		spinlock_acquire(&stealmem_lock);
 		addr = ram_stealmem(npages);
-	}
-
-	else{
+		spinlock_release(&stealmem_lock);
+	} 
+	else {
 		unsigned int i=0; 
 		//look for consecutive free pages
-		while(i< coresize){
+		while(i < num_pages){
 			if (coremap[i] !=0){
-				i += coremap[i]; 
+				i++; 
 			}
 			else {
-				if(npages+i > coresize){ //checking theres space to allocate at end 
-					break; 
-				}
-				bool isfound; 
-				isfound=true; 
-				for(unsigned int l=0; l<=npages; l++){
-					if (coremap[i+l]!=0){
-						isfound=false; 
-						i=i+l; 
-						break; 
+				bool isfound = true; 
+				for (unsigned int j = 0; j < npages; j++) {
+					if (i + j >= num_pages) return 0;
+					if (coremap[i+j] != 0) {
+						i+=j;
+						isfound = false;
+						break;
 					}
 				}
-				if(isfound){
-					coremap[i]=npages; 
-					addr=first+(i*PAGE_SIZE); 
+				if (isfound) {
+					coremap[i] = npages;
+					for (j = 1; j < npages; j++) {
+						coremap[i+j] = -1;
+					}
+					return start + i * PAGE_SIZE;
 				}
+				i++;
 			}
 		}
 	}
 
-	spinlock_release(&stealmem_lock);
-	return addr;
+	return 0;
 }
 
 /* Allocate/free some kernel-space virtual pages */
@@ -149,12 +144,13 @@ alloc_kpages(int npages)
 void 
 free_kpages(vaddr_t addr)
 {
-	/* nothing - leak the memory. */
-
-	int pageindex = (addr-(vaddr_t)coremap)/PAGE_SIZE;
-	coremap[pageindex]=0;  
-
-	(void)addr; 
+	for (int i = 0; i < num_pages; i++) {
+		if (start + i * PAGE_SIZE == addr) {
+			for (int j = 0; j < coremap[i]; j++) {
+				coremap[i+j] = 0;
+			}
+		}
+	}
 
 }
 
