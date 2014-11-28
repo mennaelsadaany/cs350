@@ -97,6 +97,7 @@ getppages(unsigned long npages)
 		spinlock_acquire(&stealmem_lock);
 		addr = ram_stealmem(npages);
 		spinlock_release(&stealmem_lock);
+		return addr;
 	} 
 	else {
 		unsigned int i=0; 
