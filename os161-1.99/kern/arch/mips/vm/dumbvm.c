@@ -68,7 +68,7 @@ vm_bootstrap(void)
 	
 	paddr_t last; 
 
-	ram_getsize(&first, &last); 
+	//ram_getsize(&first, &last); 
 
 	num_pages = (last - first)/PAGE_SIZE; 
 	coremap = (int*)PADDR_TO_KVADDR(first);
@@ -128,7 +128,7 @@ getppages(unsigned long npages)
 	// 	}
 	// }
 
-	return 0;
+	// return 0;
 }
 
 /* Allocate/free some kernel-space virtual pages */
