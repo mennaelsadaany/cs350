@@ -234,8 +234,11 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 	stackbase = USERSTACK - DUMBVM_STACKPAGES * PAGE_SIZE;
 	stacktop = USERSTACK;
 
+	bool isText = false;
+
 	if (faultaddress >= vbase1 && faultaddress < vtop1) {
 		paddr = (faultaddress - vbase1) + as->as_pbase1;
+		isText = true;
 	}
 	else if (faultaddress >= vbase2 && faultaddress < vtop2) {
 		paddr = (faultaddress - vbase2) + as->as_pbase2;
@@ -260,7 +263,7 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 		}
 		ehi = faultaddress;
 		elo = paddr | TLBLO_DIRTY | TLBLO_VALID;
-		if ((vbase1 <= faultaddress) && (faultaddress <= vtop1) && loaded){
+		if (isText && loaded){
 			elo &= ~TLBLO_DIRTY;
 		}
 		DEBUG(DB_VM, "dumbvm: 0x%x -> 0x%x\n", faultaddress, paddr);
@@ -272,7 +275,7 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 	//randomly replace an entry 
 	 	ehi = faultaddress;
 		elo = paddr | TLBLO_DIRTY | TLBLO_VALID;
-		if ((vbase1 <= faultaddress) && (faultaddress <= vtop1) && loaded){
+		if (isText && loaded){
 			elo &= ~TLBLO_DIRTY;
 		}
 		tlb_random(ehi,elo);
