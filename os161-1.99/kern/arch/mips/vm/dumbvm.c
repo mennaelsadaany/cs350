@@ -51,7 +51,7 @@
 
 
 int * coremap; 
-static paddr_t first;  
+paddr_t first;  
 unsigned int num_pages;
 
 /*
@@ -63,26 +63,25 @@ bool loaded = false;
 void
 vm_bootstrap(void)
 {
-	(void)first; 
 	//initialize coremap 
 	
-	paddr_t last; 
+	// paddr_t last; 
 
 	//ram_getsize(&first, &last); 
 
-	num_pages = (last - first)/PAGE_SIZE; 
-	coremap = (int*)PADDR_TO_KVADDR(first);
+	// num_pages = (last - first)/PAGE_SIZE; 
+	// coremap = (int*)PADDR_TO_KVADDR(first);
 
-	unsigned int coresize = ROUNDUP(num_pages * sizeof(int), PAGE_SIZE)/PAGE_SIZE;
+	// unsigned int coresize = ROUNDUP(num_pages * sizeof(int), PAGE_SIZE)/PAGE_SIZE;
 
 
-	for (unsigned int i=0; i< num_pages; i++){
-		if (i < coresize) {
-			coremap[i] = 1; 
-		} else {
-			coremap[i] = 0; 
-		}
-	}
+	// for (unsigned int i=0; i< num_pages; i++){
+	// 	if (i < coresize) {
+	// 		coremap[i] = 1; 
+	// 	} else {
+	// 		coremap[i] = 0; 
+	// 	}
+	// }
 }
 
 static
